@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible Story Jigsaw Puzzles</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <h1>🧩 Bible Story Puzzles</h1>
+  <p>Piece together your favorite Bible stories!</p>
+</header>
+
+<main>
+
+  <!-- SCREEN 1: Age group selection -->
+  <section id="screen-home" class="screen active">
+    <div class="age-grid">
+      <button class="age-card toddler" data-group="toddler">
+        <span class="emoji">🐑</span>
+        <h2>Little Explorers</h2>
+        <p>Ages 2–5 · 4–6 big pieces</p>
+      </button>
+      <button class="age-card early" data-group="early">
+        <span class="emoji">🦁</span>
+        <h2>Story Adventurers</h2>
+        <p>Ages 6–8 · 9–16 pieces</p>
+      </button>
+      <button class="age-card older" data-group="older">
+        <span class="emoji">⭐</span>
+        <h2>Faith Builders</h2>
+        <p>Ages 9–12 · 25–35 pieces</p>
+      </button>
+    </div>
+
+    <div class="activity-row">
+      <button class="activity-card" id="open-commandments">
+        <span class="emoji">🔟</span>
+        <div>
+          <h2>Ten Commandments Match</h2>
+          <p>A matching game for all ages · Exodus 20</p>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: Puzzle picker -->
+  <section id="screen-picker" class="screen">
+    <div class="backbar">
+      <button class="btn" id="back-to-home">← Age Groups</button>
+      <h2 id="picker-title" style="margin:0;"></h2>
+    </div>
+    <div class="puzzle-grid" id="puzzle-grid"></div>
+  </section>
+
+  <!-- SCREEN 3: Puzzle play -->
+  <section id="screen-play" class="screen">
+    <div class="backbar">
+      <button class="btn" id="back-to-picker">← Choose Another Puzzle</button>
+    </div>
+    <div class="puzzle-header">
+      <div>
+        <h2 id="play-title"></h2>
+        <p class="verse" id="play-verse"></p>
+      </div>
+      <div class="progress-pill" id="play-progress">0 / 0</div>
+    </div>
+    <div class="puzzle-stage">
+      <div class="stage-row">
+        <div class="side-tray" id="tray-left"></div>
+        <div class="grid-zone" id="grid-zone"></div>
+        <div class="side-tray" id="tray-right"></div>
+      </div>
+      <div class="tray-zone" id="tray-bottom"></div>
+    </div>
+  </section>
+
+  <!-- SCREEN 4: Ten Commandments matching game -->
+  <section id="screen-commandments" class="screen">
+    <div class="backbar">
+      <button class="btn" id="back-from-commandments">← Age Groups</button>
+    </div>
+    <div class="cmd-header">
+      <h2>🔟 Ten Commandments Match</h2>
+      <p>Tap a stone tablet, then tap the matching commandment!</p>
+      <div class="cmd-progress-wrap">
+        <div class="cmd-progress-track"><div class="cmd-progress-fill" id="cmd-progress-fill"></div></div>
+        <span class="cmd-progress-label" id="cmd-progress">0 / 10</span>
+      </div>
+    </div>
+    <div class="cmd-game">
+      <div class="cmd-col-wrap">
+        <div class="cmd-col-label">🪨 Commandments</div>
+        <div class="cmd-col" id="cmd-tablets"></div>
+      </div>
+      <div class="cmd-col-wrap">
+        <div class="cmd-col-label">📜 What it means</div>
+        <div class="cmd-col" id="cmd-phrases"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Made with love for family devotion time 💛</footer>
+
+<div class="overlay" id="overlay">
+  <div class="overlay-card">
+    <div class="big-emoji">🎉</div>
+    <h2>Wonderful job!</h2>
+    <p id="overlay-verse"></p>
+    <div class="overlay-actions">
+      <button class="btn" id="play-again">Play Again</button>
+      <button class="btn primary" id="pick-another">Choose Another Puzzle</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay-cmd">
+  <div class="overlay-card">
+    <div class="big-emoji">🌟</div>
+    <h2>You matched them all!</h2>
+    <div class="cmd-recap" id="cmd-recap"></div>
+    <div class="overlay-actions">
+      <button class="btn" id="cmd-play-again">Play Again</button>
+      <button class="btn primary" id="cmd-back-home">Back to Puzzles</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
