@@ -1,14 +1,20 @@
-# Bible Games
+# Kids Games
 
-A kid-friendly website with two categories of Bible games: jigsaw puzzles for three
-age groups, and a Ten Commandments matching game — all original flat-illustration
-SVG art, no external image dependencies.
+A kid-friendly games site. Currently one category, **Bible Games for Kids**: jigsaw
+puzzles for three age groups, and a Ten Commandments matching game — all original
+flat-illustration SVG art, no external image dependencies.
 
-## Files
+## Site structure
 
-- `index.html` — page structure
-- `styles.css` — all styling
-- `script.js` — puzzle engine, scene art, and game logic
+- `index.html` — Kids Games hub (category list; currently just "Bible Games for Kids")
+- `bible-games.html` — Bible Games category page (age-group puzzles + the Match game)
+- `little-explorers.html` / `story-adventurers.html` / `faith-builders.html` — one
+  page per age group, each with its own puzzle picker and play area
+- `commandments.html` — Ten Commandments matching game
+- `puzzles.js` — shared jigsaw engine, scene art, and puzzle data (loaded by the
+  three age-group pages)
+- `commandments.js` — matching-game logic (loaded by `commandments.html`)
+- `styles.css` — shared styling for every page
 
 ## Running it
 
@@ -23,5 +29,5 @@ No build step or server required. Just open `index.html` in any modern browser
 - **Ten Commandments Match:** a tap-to-match game for all ages (Exodus 20)
 
 Puzzle pieces are draggable (mouse and touch) and arranged in trays on either side
-of the grid for shorter drags, with overflow pieces in a tray below for the larger
-puzzles.
+of the grid, sized so every piece fits without a bottom-tray overflow on typical
+screens.

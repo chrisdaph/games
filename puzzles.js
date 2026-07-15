@@ -568,12 +568,6 @@ const PUZZLES = [
   { id:'resurrection', group:'older', title:'The Empty Tomb', verse:'Matthew 28:1–10', cols:5, rows:5, svg:svgResurrection },
 ];
 
-const GROUP_META = {
-  toddler:{ label:'Little Explorers (Ages 2–5)' },
-  early:{ label:'Story Adventurers (Ages 6–8)' },
-  older:{ label:'Faith Builders (Ages 9–12)' },
-};
-
 function svgToDataUrl(svgString){
   const base64 = btoa(unescape(encodeURIComponent(svgString)));
   return 'data:image/svg+xml;base64,' + base64;
@@ -581,12 +575,14 @@ function svgToDataUrl(svgString){
 
 /* =========================================================
    NAVIGATION
+   Each age-group page (little-explorers.html, story-adventurers.html,
+   faith-builders.html) hosts just two screens: the puzzle picker for
+   that one group, and the play area. Moving between age groups or back
+   to the games hub is a real page link (see bible-games.html), not JS.
    ========================================================= */
 const screens = {
-  home: document.getElementById('screen-home'),
   picker: document.getElementById('screen-picker'),
   play: document.getElementById('screen-play'),
-  commandments: document.getElementById('screen-commandments'),
 };
 function showScreen(name){
   Object.values(screens).forEach(s=>s.classList.remove('active'));
@@ -595,23 +591,12 @@ function showScreen(name){
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-document.querySelectorAll('.age-card').forEach(card=>{
-  card.addEventListener('click', ()=>{
-    openPicker(card.dataset.group);
-  });
-});
-document.getElementById('back-to-home').addEventListener('click', ()=> showScreen('home'));
 document.getElementById('back-to-picker').addEventListener('click', ()=>{
   teardownPuzzle();
   showScreen('picker');
 });
-document.getElementById('open-commandments').addEventListener('click', openCommandments);
-document.getElementById('back-from-commandments').addEventListener('click', ()=> showScreen('home'));
 
-let currentGroup = null;
-function openPicker(group){
-  currentGroup = group;
-  document.getElementById('picker-title').textContent = GROUP_META[group].label;
+function initGroupPage(group){
   const grid = document.getElementById('puzzle-grid');
   grid.innerHTML = '';
   PUZZLES.filter(p=>p.group===group).forEach(p=>{
@@ -629,6 +614,8 @@ function openPicker(group){
   });
   showScreen('picker');
 }
+
+initGroupPage(document.body.dataset.group);
 
 /* =========================================================
    JIGSAW ENGINE
@@ -938,7 +925,7 @@ document.getElementById('play-again').addEventListener('click', ()=>{
 document.getElementById('pick-another').addEventListener('click', ()=>{
   document.getElementById('overlay').classList.remove('active');
   teardownPuzzle();
-  openPicker(currentGroup);
+  showScreen('picker');
 });
 
 // Rebuild layout responsively if window resizes while playing
@@ -954,131 +941,3 @@ window.addEventListener('resize', ()=>{
   }, 300);
 });
 
-/* =========================================================
-   TEN COMMANDMENTS MATCHING GAME
-   ========================================================= */
-const COMMANDMENTS = [
-  { n:1,  text:'Love God above everything else',        verse:'Exodus 20:3',   icon:'🙏' },
-  { n:2,  text:"Don't worship idols or statues",         verse:'Exodus 20:4–5', icon:'🗿' },
-  { n:3,  text:"Use God's name with respect",            verse:'Exodus 20:7',   icon:'🗣️' },
-  { n:4,  text:'Rest and remember God on the Sabbath',   verse:'Exodus 20:8–11', icon:'😴' },
-  { n:5,  text:'Honor your mother and father',           verse:'Exodus 20:12',  icon:'👪' },
-  { n:6,  text:'Do not hurt or harm others',              verse:'Exodus 20:13', icon:'🤝' },
-  { n:7,  text:'Be faithful and true in your family',    verse:'Exodus 20:14',  icon:'💍' },
-  { n:8,  text:'Do not steal',                            verse:'Exodus 20:15', icon:'🙅' },
-  { n:9,  text:'Always tell the truth',                   verse:'Exodus 20:16', icon:'✅' },
-  { n:10, text:'Be happy with what you have',             verse:'Exodus 20:17', icon:'😊' },
-];
-
-let cmdSelectedTablet = null;
-let cmdSelectedPhrase = null;
-let cmdMatched = 0;
-
-function shuffleArray(arr){
-  for(let i=arr.length-1; i>0; i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-function openCommandments(){
-  cmdMatched = 0;
-  cmdSelectedTablet = null;
-  cmdSelectedPhrase = null;
-  buildCommandmentsDom();
-  showScreen('commandments');
-}
-
-function buildCommandmentsDom(){
-  const tabletsCol = document.getElementById('cmd-tablets');
-  const phrasesCol = document.getElementById('cmd-phrases');
-  tabletsCol.innerHTML = '';
-  phrasesCol.innerHTML = '';
-
-  const tabletOrder = shuffleArray(COMMANDMENTS.slice());
-  const phraseOrder = shuffleArray(COMMANDMENTS.slice());
-
-  tabletOrder.forEach(cmd=>{
-    const el = document.createElement('div');
-    el.className = 'cmd-tile tablet';
-    el.innerHTML = `<span class="cmd-num">${cmd.n}</span>`;
-    el.addEventListener('click', ()=> onTabletClick(el, cmd));
-    tabletsCol.appendChild(el);
-  });
-
-  phraseOrder.forEach(cmd=>{
-    const el = document.createElement('div');
-    el.className = 'cmd-tile phrase';
-    el.innerHTML = `<span class="cmd-icon">${cmd.icon}</span><span class="cmd-text">${cmd.text}</span>`;
-    el.addEventListener('click', ()=> onPhraseClick(el, cmd));
-    phrasesCol.appendChild(el);
-  });
-
-  updateCmdProgress();
-}
-
-function onTabletClick(el, cmd){
-  if (el.classList.contains('matched') || el.classList.contains('wrong')) return;
-  if (cmdSelectedTablet) cmdSelectedTablet.el.classList.remove('selected');
-  cmdSelectedTablet = { el, cmd };
-  el.classList.add('selected');
-  tryCmdMatch();
-}
-
-function onPhraseClick(el, cmd){
-  if (el.classList.contains('matched') || el.classList.contains('wrong')) return;
-  if (cmdSelectedPhrase) cmdSelectedPhrase.el.classList.remove('selected');
-  cmdSelectedPhrase = { el, cmd };
-  el.classList.add('selected');
-  tryCmdMatch();
-}
-
-function tryCmdMatch(){
-  if (!cmdSelectedTablet || !cmdSelectedPhrase) return;
-  const tablet = cmdSelectedTablet;
-  const phrase = cmdSelectedPhrase;
-
-  if (tablet.cmd.n === phrase.cmd.n){
-    tablet.el.classList.remove('selected');
-    phrase.el.classList.remove('selected');
-    tablet.el.classList.add('matched');
-    phrase.el.classList.add('matched');
-    cmdMatched++;
-    updateCmdProgress();
-    if (cmdMatched === COMMANDMENTS.length){
-      setTimeout(showCommandmentsCelebration, 300);
-    }
-  } else {
-    tablet.el.classList.add('wrong');
-    phrase.el.classList.add('wrong');
-    setTimeout(()=>{
-      tablet.el.classList.remove('wrong','selected');
-      phrase.el.classList.remove('wrong','selected');
-    }, 500);
-  }
-  cmdSelectedTablet = null;
-  cmdSelectedPhrase = null;
-}
-
-function updateCmdProgress(){
-  document.getElementById('cmd-progress').textContent = `${cmdMatched} / ${COMMANDMENTS.length}`;
-  document.getElementById('cmd-progress-fill').style.width = `${(cmdMatched / COMMANDMENTS.length) * 100}%`;
-}
-
-function showCommandmentsCelebration(){
-  const recap = document.getElementById('cmd-recap');
-  recap.innerHTML = COMMANDMENTS
-    .map(c => `<div class="row">${c.icon} <b>${c.n}.</b> ${c.text} <em>(${c.verse})</em></div>`)
-    .join('');
-  document.getElementById('overlay-cmd').classList.add('active');
-}
-
-document.getElementById('cmd-play-again').addEventListener('click', ()=>{
-  document.getElementById('overlay-cmd').classList.remove('active');
-  openCommandments();
-});
-document.getElementById('cmd-back-home').addEventListener('click', ()=>{
-  document.getElementById('overlay-cmd').classList.remove('active');
-  showScreen('home');
-});

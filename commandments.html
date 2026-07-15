@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ten Commandments Match – Bible Games</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <h1>🔟 Ten Commandments Match</h1>
+  <p>A matching game for all ages · Exodus 20</p>
+</header>
+
+<main>
+
+  <section id="screen-commandments">
+    <div class="backbar">
+      <a class="btn" href="bible-games.html">← Bible Games</a>
+    </div>
+    <div class="cmd-header">
+      <h2>🔟 Ten Commandments Match</h2>
+      <p>Tap a stone tablet, then tap the matching commandment!</p>
+      <div class="cmd-progress-wrap">
+        <div class="cmd-progress-track"><div class="cmd-progress-fill" id="cmd-progress-fill"></div></div>
+        <span class="cmd-progress-label" id="cmd-progress">0 / 10</span>
+      </div>
+    </div>
+    <div class="cmd-game">
+      <div class="cmd-col-wrap">
+        <div class="cmd-col-label">🪨 Commandments</div>
+        <div class="cmd-col" id="cmd-tablets"></div>
+      </div>
+      <div class="cmd-col-wrap">
+        <div class="cmd-col-label">📜 What it means</div>
+        <div class="cmd-col" id="cmd-phrases"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Made with love for family devotion time 💛</footer>
+
+<div class="overlay" id="overlay-cmd">
+  <div class="overlay-card">
+    <div class="big-emoji">🌟</div>
+    <h2>You matched them all!</h2>
+    <div class="cmd-recap" id="cmd-recap"></div>
+    <div class="overlay-actions">
+      <button class="btn" id="cmd-play-again">Play Again</button>
+      <a class="btn primary" href="bible-games.html">Back to Puzzles</a>
+    </div>
+  </div>
+</div>
+
+<script src="commandments.js"></script>
+</body>
+</html>
