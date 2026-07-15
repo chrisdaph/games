@@ -1,8 +1,8 @@
-# Bible Story Jigsaw Puzzles
+# Bible Games
 
-A kid-friendly website with Bible-themed jigsaw puzzles for three age groups, plus a
-Ten Commandments matching game — all original flat-illustration SVG art, no external
-image dependencies.
+A kid-friendly website with two categories of Bible games: jigsaw puzzles for three
+age groups, and a Ten Commandments matching game — all original flat-illustration
+SVG art, no external image dependencies.
 
 ## Files
 
