@@ -835,7 +835,6 @@ function onPointerDown(e){
   if (piece.classList.contains('locked')) return;
   e.preventDefault();
   const rect = piece.getBoundingClientRect();
-  const stage = document.querySelector('.puzzle-stage');
 
   dragState = {
     piece,
@@ -845,7 +844,6 @@ function onPointerDown(e){
     height: rect.height,
   };
 
-  piece.setPointerCapture(e.pointerId);
   piece.classList.add('dragging');
   piece.style.position = 'fixed';
   piece.style.left = rect.left + 'px';
@@ -853,7 +851,11 @@ function onPointerDown(e){
   piece.style.width = dragState.width + 'px';
   piece.style.height = dragState.height + 'px';
   piece.style.margin = '0';
+  // Reparent before capturing the pointer — some browsers silently drop
+  // pointer capture when the captured element moves in the DOM tree,
+  // which made drags freeze partway through.
   document.body.appendChild(piece);
+  piece.setPointerCapture(e.pointerId);
 
   piece.addEventListener('pointermove', onPointerMove);
   piece.addEventListener('pointerup', onPointerUp);
