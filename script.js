@@ -591,6 +591,7 @@ const screens = {
 function showScreen(name){
   Object.values(screens).forEach(s=>s.classList.remove('active'));
   screens[name].classList.add('active');
+  document.body.classList.toggle('is-playing', name === 'play');
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -709,7 +710,9 @@ function buildPuzzleDom(puzzle){
   const stageGap = 14;
   const totalPieces = cols * rows;
   const halfPieces = Math.ceil(totalPieces / 2);
-  const containerW = Math.min(1000, window.innerWidth) - 32;
+  // Measure main's actual rendered width rather than assuming its CSS
+  // max-width, so this stays correct if that value ever changes.
+  const containerW = gridZone.closest('main').clientWidth - 32;
   const maxSideWidth = Math.max(70, (containerW - displayW - stageGap * 2) / 2);
   const MIN_USABLE_SCALE = 0.5;
 

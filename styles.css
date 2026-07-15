@@ -39,6 +39,14 @@
   .screen{ display:none; }
   .screen.active{ display:block; }
 
+  /* --- Compact chrome while a puzzle is open, so more height goes to the
+     grid/pieces instead of the header and footer --- */
+  body.is-playing header{ padding: 8px 16px 4px; }
+  body.is-playing header h1{ font-size: 1.4rem; margin-bottom: 0; }
+  body.is-playing header p{ display:none; }
+  body.is-playing main{ padding-bottom: 16px; max-width: 1300px; }
+  body.is-playing footer{ display:none; }
+
   /* --- Age group cards --- */
   .age-grid{
     display:grid;
