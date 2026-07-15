@@ -641,8 +641,10 @@ function openPuzzle(puzzle){
   placedCount = 0;
   document.getElementById('play-title').textContent = puzzle.title;
   document.getElementById('play-verse').textContent = puzzle.verse;
-  buildPuzzleDom(puzzle);
+  // Show the screen before measuring layout so computeDisplaySize can read
+  // real, on-screen positions (the screen must be visible/laid out first).
   showScreen('play');
+  buildPuzzleDom(puzzle);
 }
 
 function teardownPuzzle(){
@@ -656,8 +658,24 @@ function teardownPuzzle(){
 function computeDisplaySize(){
   // Leave room on both sides for the side trays on wider screens.
   const maxW = Math.min(560, window.innerWidth - 60);
-  const w = Math.max(260, maxW);
-  const h = w * 0.75; // 4:3 to match 800x600 viewBox
+  let w = Math.max(260, maxW);
+  let h = w * 0.75; // 4:3 to match 800x600 viewBox
+
+  // Also shrink to fit the viewport's height, so the header + grid + footer
+  // never need a page scroll on shorter windows (laptops, landscape phones).
+  const stage = document.querySelector('.puzzle-stage');
+  const mainEl = document.querySelector('main');
+  const footer = document.querySelector('footer');
+  if (stage && mainEl){
+    const stageTop = stage.getBoundingClientRect().top;
+    const mainPaddingBottom = parseFloat(getComputedStyle(mainEl).paddingBottom) || 0;
+    const footerH = footer ? footer.offsetHeight : 0;
+    const availableH = window.innerHeight - stageTop - mainPaddingBottom - footerH - 16;
+    if (availableH > 0 && h > availableH){
+      h = Math.max(180, availableH);
+      w = h / 0.75;
+    }
+  }
   return { w, h };
 }
 
