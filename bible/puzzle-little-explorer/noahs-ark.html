@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noah's Ark – Bible Games</title>
+<link rel="stylesheet" href="../../styles.css">
+</head>
+<body data-puzzle="ark">
+
+<header>
+  <h1>🐑 Little Explorers</h1>
+</header>
+
+<main>
+  <section id="screen-play">
+    <div class="backbar">
+      <a class="btn" href="index.html">← Choose Another Puzzle</a>
+    </div>
+    <div class="puzzle-header">
+      <div>
+        <h2 id="play-title"></h2>
+        <p class="verse" id="play-verse"></p>
+      </div>
+      <div class="progress-pill" id="play-progress">0 / 0</div>
+    </div>
+    <div class="puzzle-stage">
+      <div class="stage-row">
+        <div class="side-tray" id="tray-left"></div>
+        <div class="grid-zone" id="grid-zone"></div>
+        <div class="side-tray" id="tray-right"></div>
+      </div>
+      <div class="tray-zone" id="tray-bottom"></div>
+    </div>
+  </section>
+</main>
+
+<footer>Made with love for family devotion time 💛</footer>
+
+<div class="overlay" id="overlay">
+  <div class="overlay-card">
+    <div class="big-emoji">🎉</div>
+    <h2>Wonderful job!</h2>
+    <p id="overlay-verse"></p>
+    <div class="overlay-actions">
+      <button class="btn" id="play-again">Play Again</button>
+      <a class="btn primary" href="index.html">Choose Another Puzzle</a>
+    </div>
+  </div>
+</div>
+
+<script src="../../puzzles.js"></script>
+</body>
+</html>

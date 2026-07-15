@@ -331,11 +331,13 @@
     gap: 20px;
   }
   .puzzle-card{
+    display:block;
     background:#fff;
     border-radius:18px;
     overflow:hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     cursor:pointer;
+    text-decoration:none;
     transition: transform .12s ease;
   }
   .puzzle-card:hover{ transform: translateY(-3px); }

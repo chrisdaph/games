@@ -121,7 +121,7 @@ document.getElementById('cmd-play-again').addEventListener('click', ()=>{
   document.getElementById('overlay-cmd').classList.remove('active');
   openCommandments();
 });
-// "Back to Puzzles" is a plain <a href="bible-games.html"> in the HTML —
+// "Back to Puzzles" is a plain <a href="index.html"> in the HTML —
 // this is a single-page game, so no in-page screen switching is needed.
 
 openCommandments();

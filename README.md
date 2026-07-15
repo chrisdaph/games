@@ -6,15 +6,25 @@ flat-illustration SVG art, no external image dependencies.
 
 ## Site structure
 
-- `index.html` — Kids Games hub (category list; currently just "Bible Games for Kids")
-- `bible-games.html` — Bible Games category page (age-group puzzles + the Match game)
-- `little-explorers.html` / `story-adventurers.html` / `faith-builders.html` — one
-  page per age group, each with its own puzzle picker and play area
-- `commandments.html` — Ten Commandments matching game
-- `puzzles.js` — shared jigsaw engine, scene art, and puzzle data (loaded by the
-  three age-group pages)
-- `commandments.js` — matching-game logic (loaded by `commandments.html`)
-- `styles.css` — shared styling for every page
+```
+/index.html                              Kids Games hub
+/bible/index.html                        Bible Games category page
+/bible/puzzle-little-explorer/index.html    picker — ages 2–5
+/bible/puzzle-little-explorer/<puzzle>.html one page per puzzle
+/bible/puzzle-story-adventurer/index.html   picker — ages 6–8
+/bible/puzzle-story-adventurer/<puzzle>.html
+/bible/puzzle-faith-builders/index.html     picker — ages 9–12
+/bible/puzzle-faith-builders/<puzzle>.html
+/bible/ten-commandments-match.html       matching game
+/puzzles.js                              shared jigsaw engine, scene art, puzzle data
+/commandments.js                         matching-game logic
+/styles.css                              shared styling for every page
+```
+
+`puzzles.js` is loaded by every picker and puzzle page; which one it acts as is read
+from `<body data-group="...">` (picker) or `<body data-puzzle="...">` (a single
+puzzle), both set in the page's own HTML. `commandments.js` is only loaded by
+`ten-commandments-match.html`.
 
 ## Running it
 

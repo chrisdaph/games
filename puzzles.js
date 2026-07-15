@@ -547,25 +547,25 @@ const svgResurrection = `<svg ${SVG_HEAD}>
    ========================================================= */
 const PUZZLES = [
   // Toddlers 2-5
-  { id:'ark', group:'toddler', title:"Noah's Ark", verse:'Genesis 6–9', cols:2, rows:2, svg:svgArk },
-  { id:'moses-basket', group:'toddler', title:'Baby Moses in the Basket', verse:'Exodus 2:1–10', cols:3, rows:2, svg:svgMoses },
-  { id:'shepherd', group:'toddler', title:'The Good Shepherd', verse:'John 10:11', cols:3, rows:2, svg:svgShepherd },
-  { id:'bless-children', group:'toddler', title:'Jesus Blesses the Children', verse:'Mark 10:13–16', cols:3, rows:2, svg:svgBlessChildren },
-  { id:'calms-storm', group:'toddler', title:'Jesus Calms the Storm', verse:'Mark 4:35–41', cols:2, rows:2, svg:svgCalmsStorm },
+  { id:'ark', slug:'noahs-ark', group:'toddler', title:"Noah's Ark", verse:'Genesis 6–9', cols:2, rows:2, svg:svgArk },
+  { id:'moses-basket', slug:'baby-moses', group:'toddler', title:'Baby Moses in the Basket', verse:'Exodus 2:1–10', cols:3, rows:2, svg:svgMoses },
+  { id:'shepherd', slug:'good-shepherd', group:'toddler', title:'The Good Shepherd', verse:'John 10:11', cols:3, rows:2, svg:svgShepherd },
+  { id:'bless-children', slug:'jesus-blesses-children', group:'toddler', title:'Jesus Blesses the Children', verse:'Mark 10:13–16', cols:3, rows:2, svg:svgBlessChildren },
+  { id:'calms-storm', slug:'jesus-calms-storm', group:'toddler', title:'Jesus Calms the Storm', verse:'Mark 4:35–41', cols:2, rows:2, svg:svgCalmsStorm },
 
   // Early elementary 6-8
-  { id:'david-goliath', group:'early', title:'David and Goliath', verse:'1 Samuel 17', cols:3, rows:3, svg:svgDavid },
-  { id:'jonah', group:'early', title:'Jonah and the Big Fish', verse:'Jonah 1–2', cols:4, rows:3, svg:svgJonah },
-  { id:'daniel', group:'early', title:"Daniel in the Lions' Den", verse:'Daniel 6', cols:4, rows:4, svg:svgDaniel },
-  { id:'good-samaritan', group:'early', title:'The Good Samaritan', verse:'Luke 10:25–37', cols:4, rows:3, svg:svgGoodSamaritan },
-  { id:'zacchaeus', group:'early', title:'Zacchaeus in the Tree', verse:'Luke 19:1–10', cols:3, rows:3, svg:svgZacchaeus },
+  { id:'david-goliath', slug:'david-and-goliath', group:'early', title:'David and Goliath', verse:'1 Samuel 17', cols:3, rows:3, svg:svgDavid },
+  { id:'jonah', slug:'jonah-and-the-fish', group:'early', title:'Jonah and the Big Fish', verse:'Jonah 1–2', cols:4, rows:3, svg:svgJonah },
+  { id:'daniel', slug:'daniel-lions-den', group:'early', title:"Daniel in the Lions' Den", verse:'Daniel 6', cols:4, rows:4, svg:svgDaniel },
+  { id:'good-samaritan', slug:'good-samaritan', group:'early', title:'The Good Samaritan', verse:'Luke 10:25–37', cols:4, rows:3, svg:svgGoodSamaritan },
+  { id:'zacchaeus', slug:'zacchaeus', group:'early', title:'Zacchaeus in the Tree', verse:'Luke 19:1–10', cols:3, rows:3, svg:svgZacchaeus },
 
   // Older kids 9-12
-  { id:'red-sea', group:'older', title:'Crossing the Red Sea', verse:'Exodus 14', cols:5, rows:5, svg:svgRedSea },
-  { id:'nativity', group:'older', title:'The First Christmas', verse:'Luke 2:1–20', cols:6, rows:5, svg:svgNativity },
-  { id:'feeding5000', group:'older', title:'Feeding the 5,000', verse:'John 6:1–14', cols:7, rows:5, svg:svgFeeding },
-  { id:'last-supper', group:'older', title:'The Last Supper', verse:'Matthew 26:17–30', cols:6, rows:5, svg:svgLastSupper },
-  { id:'resurrection', group:'older', title:'The Empty Tomb', verse:'Matthew 28:1–10', cols:5, rows:5, svg:svgResurrection },
+  { id:'red-sea', slug:'crossing-red-sea', group:'older', title:'Crossing the Red Sea', verse:'Exodus 14', cols:5, rows:5, svg:svgRedSea },
+  { id:'nativity', slug:'first-christmas', group:'older', title:'The First Christmas', verse:'Luke 2:1–20', cols:6, rows:5, svg:svgNativity },
+  { id:'feeding5000', slug:'feeding-the-5000', group:'older', title:'Feeding the 5,000', verse:'John 6:1–14', cols:7, rows:5, svg:svgFeeding },
+  { id:'last-supper', slug:'last-supper', group:'older', title:'The Last Supper', verse:'Matthew 26:17–30', cols:6, rows:5, svg:svgLastSupper },
+  { id:'resurrection', slug:'empty-tomb', group:'older', title:'The Empty Tomb', verse:'Matthew 28:1–10', cols:5, rows:5, svg:svgResurrection },
 ];
 
 function svgToDataUrl(svgString){
@@ -574,34 +574,20 @@ function svgToDataUrl(svgString){
 }
 
 /* =========================================================
-   NAVIGATION
-   Each age-group page (little-explorers.html, story-adventurers.html,
-   faith-builders.html) hosts just two screens: the puzzle picker for
-   that one group, and the play area. Moving between age groups or back
-   to the games hub is a real page link (see bible-games.html), not JS.
+   PAGE INIT
+   Each puzzle now lives on its own page (e.g.
+   /bible/puzzle-little-explorer/noahs-ark.html), and each age group has
+   its own picker page listing links to those (e.g.
+   /bible/puzzle-little-explorer/index.html). This same puzzles.js is
+   shared by both kinds of page, distinguished by a data attribute on
+   <body>: data-group builds a picker grid, data-puzzle plays one puzzle.
    ========================================================= */
-const screens = {
-  picker: document.getElementById('screen-picker'),
-  play: document.getElementById('screen-play'),
-};
-function showScreen(name){
-  Object.values(screens).forEach(s=>s.classList.remove('active'));
-  screens[name].classList.add('active');
-  document.body.classList.toggle('is-playing', name === 'play');
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-document.getElementById('back-to-picker').addEventListener('click', ()=>{
-  teardownPuzzle();
-  showScreen('picker');
-});
-
 function initGroupPage(group){
   const grid = document.getElementById('puzzle-grid');
-  grid.innerHTML = '';
   PUZZLES.filter(p=>p.group===group).forEach(p=>{
-    const card = document.createElement('div');
+    const card = document.createElement('a');
     card.className = 'puzzle-card';
+    card.href = p.slug + '.html';
     card.innerHTML = `
       <img class="thumb" src="${svgToDataUrl(p.svg)}" alt="${p.title}">
       <div class="info">
@@ -609,13 +595,12 @@ function initGroupPage(group){
         <p class="verse">${p.verse}</p>
         <span class="pieces-tag">${p.cols*p.rows} pieces</span>
       </div>`;
-    card.addEventListener('click', ()=> openPuzzle(p));
     grid.appendChild(card);
   });
-  showScreen('picker');
 }
 
-initGroupPage(document.body.dataset.group);
+const pageGroup = document.body.dataset.group;
+if (pageGroup) initGroupPage(pageGroup);
 
 /* =========================================================
    JIGSAW ENGINE
@@ -629,18 +614,10 @@ function openPuzzle(puzzle){
   placedCount = 0;
   document.getElementById('play-title').textContent = puzzle.title;
   document.getElementById('play-verse').textContent = puzzle.verse;
-  // Show the screen before measuring layout so computeDisplaySize can read
-  // real, on-screen positions (the screen must be visible/laid out first).
-  showScreen('play');
+  // Compact chrome before measuring layout, so computeDisplaySize sees the
+  // real (smaller) header/footer that "is-playing" produces.
+  document.body.classList.add('is-playing');
   buildPuzzleDom(puzzle);
-}
-
-function teardownPuzzle(){
-  document.getElementById('grid-zone').innerHTML = '';
-  document.getElementById('tray-left').innerHTML = '';
-  document.getElementById('tray-right').innerHTML = '';
-  document.getElementById('tray-bottom').innerHTML = '';
-  activePuzzle = null;
 }
 
 function computeDisplaySize(){
@@ -918,26 +895,29 @@ function showCelebration(){
   document.getElementById('overlay').classList.add('active');
 }
 
-document.getElementById('play-again').addEventListener('click', ()=>{
+document.getElementById('play-again')?.addEventListener('click', ()=>{
   document.getElementById('overlay').classList.remove('active');
   openPuzzle(activePuzzle);
 });
-document.getElementById('pick-another').addEventListener('click', ()=>{
-  document.getElementById('overlay').classList.remove('active');
-  teardownPuzzle();
-  showScreen('picker');
-});
+// "Choose Another Puzzle" is a plain <a href="index.html"> in the HTML,
+// linking back to that age group's picker page.
 
 // Rebuild layout responsively if window resizes while playing
 let resizeTimer;
 window.addEventListener('resize', ()=>{
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(()=>{
-    if (activePuzzle && screens.play.classList.contains('active')){
+    if (activePuzzle){
       // Only rebuild if not mid-drag to avoid losing placed pieces
       buildPuzzleDom(activePuzzle);
       placedCount = 0;
     }
   }, 300);
 });
+
+const pagePuzzleId = document.body.dataset.puzzle;
+if (pagePuzzleId){
+  const puzzle = PUZZLES.find(p=>p.id===pagePuzzleId);
+  if (puzzle) openPuzzle(puzzle);
+}
 
