@@ -612,11 +612,12 @@ let dragState = null;
 function openPuzzle(puzzle){
   activePuzzle = puzzle;
   placedCount = 0;
-  document.getElementById('play-title').textContent = puzzle.title;
-  document.getElementById('play-verse').textContent = puzzle.verse;
-  // Compact chrome before measuring layout, so computeDisplaySize sees the
-  // real (smaller) header/footer that "is-playing" produces.
-  document.body.classList.add('is-playing');
+  // These optional elements exist only if a page still shows an in-game
+  // title/verse; the puzzle name now lives in the page <h1>/<header>.
+  const pt = document.getElementById('play-title');
+  if (pt) pt.textContent = puzzle.title;
+  const pv = document.getElementById('play-verse');
+  if (pv) pv.textContent = puzzle.verse;
   buildPuzzleDom(puzzle);
 }
 
@@ -626,18 +627,15 @@ function computeDisplaySize(){
   let w = Math.max(260, maxW);
   let h = w * 0.75; // 4:3 to match 800x600 viewBox
 
-  // Also shrink to fit the viewport's height, so the header + grid + footer
-  // never need a page scroll on shorter windows (laptops, landscape phones).
+  // Fit the game into the space between the top of the stage and the bottom
+  // of the viewport, so the whole puzzle is visible above the fold while the
+  // SEO copy underneath stays scrollable below it.
   const stage = document.querySelector('.puzzle-stage');
-  const mainEl = document.querySelector('main');
-  const footer = document.querySelector('footer');
-  if (stage && mainEl){
+  if (stage){
     const stageTop = stage.getBoundingClientRect().top;
-    const mainPaddingBottom = parseFloat(getComputedStyle(mainEl).paddingBottom) || 0;
-    const footerH = footer ? footer.offsetHeight : 0;
-    const availableH = window.innerHeight - stageTop - mainPaddingBottom - footerH - 16;
-    if (availableH > 0 && h > availableH){
-      h = Math.max(180, availableH);
+    const availableH = window.innerHeight - stageTop - 24;
+    if (availableH > 180 && h > availableH){
+      h = availableH;
       w = h / 0.75;
     }
   }

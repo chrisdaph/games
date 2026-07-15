@@ -19,12 +19,23 @@ flat-illustration SVG art, no external image dependencies.
 /puzzles.js                              shared jigsaw engine, scene art, puzzle data
 /commandments.js                         matching-game logic
 /styles.css                              shared styling for every page
+/sitemap.xml                             lists all 21 public pages
+/robots.txt                              allows crawling, points to the sitemap
 ```
 
 `puzzles.js` is loaded by every picker and puzzle page; which one it acts as is read
 from `<body data-group="...">` (picker) or `<body data-puzzle="...">` (a single
 puzzle), both set in the page's own HTML. `commandments.js` is only loaded by
 `ten-commandments-match.html`.
+
+## SEO
+
+Every page follows the same pattern: SEO meta tags in `<head>` (unique title, meta
+description, canonical, Open Graph, Twitter card, plus JSON-LD structured data such as
+BreadcrumbList / Game / FAQPage), a single `<h1>` and a short description, then the
+primary content (game or card grid), then a `.seo-content` block below it with
+original copy about the story, how to play, and an FAQ. Keep `sitemap.xml` in sync
+when adding or removing pages.
 
 ## Running it
 
