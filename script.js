@@ -679,9 +679,53 @@ function buildPuzzleDom(puzzle){
   gridZone.style.width = displayW + 'px';
   gridZone.style.height = displayH + 'px';
 
-  // Side trays: fixed at 2 piece-columns wide, matching the grid's height,
-  // so pieces flow top-to-bottom then wrap into a second column.
-  const sideWidth = (pieceW * 2) + 8 + 16; // 2 columns + gap + padding
+  // Side trays: try to fit every piece within the grid's height so nothing
+  // overflows into a scrolling bottom tray. Pick whichever column count
+  // (2-6) yields the largest thumbnail scale while still fitting both the
+  // vertical space (grid height) and the horizontal space actually left
+  // next to the grid on screen. If pieces are already few/large enough that
+  // shrinking would make them uncomfortably tiny, keep them full-size and
+  // let the small remainder spill into the bottom tray instead.
+  const trayGap = 8;
+  const trayPad = 16;
+  const stageGap = 14;
+  const totalPieces = cols * rows;
+  const halfPieces = Math.ceil(totalPieces / 2);
+  const containerW = Math.min(1000, window.innerWidth) - 32;
+  const maxSideWidth = Math.max(70, (containerW - displayW - stageGap * 2) / 2);
+  const MIN_USABLE_SCALE = 0.5;
+
+  let bestCols = 2, bestScale = 0;
+  for (let tc = 2; tc <= 6; tc++){
+    const rowsNeeded = Math.ceil(halfPieces / tc);
+    const heightScale = Math.min(1, displayH / (rowsNeeded * (pieceH + trayGap)));
+    const widthScale = Math.min(1, (maxSideWidth - trayPad - (tc - 1) * trayGap) / (pieceW * tc));
+    const scale = Math.min(heightScale, widthScale);
+    if (scale > bestScale){
+      bestScale = scale;
+      bestCols = tc;
+    }
+  }
+
+  let trayCols, trayScale, allowOverflow;
+  if (bestScale >= MIN_USABLE_SCALE){
+    trayCols = bestCols;
+    trayScale = bestScale;
+    allowOverflow = false;
+  } else {
+    // Pieces are few enough that shrinking to avoid overflow isn't worth
+    // it — keep them as large as the available width allows (never wider
+    // than the space actually next to the grid) and let any remainder
+    // spill into the bottom tray.
+    trayCols = 2;
+    // Width is a hard cap (violating it wraps the layout) — never floor it
+    // back up, even if that means a smaller-than-ideal thumbnail.
+    trayScale = Math.min(1, (maxSideWidth - trayPad - trayGap) / (pieceW * 2));
+    allowOverflow = true;
+  }
+
+  const trayPieceW = pieceW * trayScale;
+  const sideWidth = (trayPieceW * trayCols) + ((trayCols - 1) * trayGap) + trayPad;
   [trayLeft, trayRight].forEach(t=>{
     t.style.width = sideWidth + 'px';
     t.style.height = displayH + 'px';
@@ -714,39 +758,48 @@ function buildPuzzleDom(puzzle){
     [cells[i], cells[j]] = [cells[j], cells[i]];
   }
 
-  // Distribute pieces: fill left/right side trays first (short drag distance
-  // to the grid), overflow goes to the bottom tray.
-  const rowsFit = Math.max(1, Math.floor(displayH / (pieceH + 8)));
-  const sideCapacityEach = rowsFit * 2;
-  const leftCells = [], rightCells = [], bottomCells = [];
-  cells.forEach(cell=>{
-    if (leftCells.length <= rightCells.length && leftCells.length < sideCapacityEach){
-      leftCells.push(cell);
-    } else if (rightCells.length < sideCapacityEach){
-      rightCells.push(cell);
-    } else {
-      bottomCells.push(cell);
-    }
-  });
+  // Distribute pieces between the left and right trays. When the trays were
+  // sized to hold everyone, split evenly with no overflow; otherwise fall
+  // back to filling both sides at full size and spilling any remainder into
+  // the bottom tray.
+  let leftCells, rightCells, bottomCells;
+  if (!allowOverflow){
+    leftCells = cells.slice(0, halfPieces);
+    rightCells = cells.slice(halfPieces);
+    bottomCells = [];
+  } else {
+    const rowsFit = Math.max(1, Math.floor(displayH / (pieceH * trayScale + trayGap)));
+    const sideCapacityEach = rowsFit * trayCols;
+    leftCells = []; rightCells = []; bottomCells = [];
+    cells.forEach(cell=>{
+      if (leftCells.length <= rightCells.length && leftCells.length < sideCapacityEach){
+        leftCells.push(cell);
+      } else if (rightCells.length < sideCapacityEach){
+        rightCells.push(cell);
+      } else {
+        bottomCells.push(cell);
+      }
+    });
+  }
 
-  function makePiece(r, c, homeTrayId){
+  function makePiece(r, c, homeTrayId, scale=1){
     const piece = document.createElement('div');
     piece.className = 'piece';
     piece.dataset.row = r;
     piece.dataset.col = c;
     piece.dataset.homeTray = homeTrayId;
-    piece.style.width = pieceW + 'px';
-    piece.style.height = pieceH + 'px';
+    piece.style.width = (pieceW * scale) + 'px';
+    piece.style.height = (pieceH * scale) + 'px';
     piece.style.backgroundImage = `url(${dataUrl})`;
-    piece.style.backgroundSize = `${displayW}px ${displayH}px`;
-    piece.style.backgroundPosition = `-${c*pieceW}px -${r*pieceH}px`;
+    piece.style.backgroundSize = `${displayW * scale}px ${displayH * scale}px`;
+    piece.style.backgroundPosition = `-${c*pieceW*scale}px -${r*pieceH*scale}px`;
     piece.addEventListener('pointerdown', onPointerDown);
     return piece;
   }
 
-  leftCells.forEach(({r,c})=> trayLeft.appendChild(makePiece(r,c,'tray-left')));
-  rightCells.forEach(({r,c})=> trayRight.appendChild(makePiece(r,c,'tray-right')));
-  bottomCells.forEach(({r,c})=> trayBottom.appendChild(makePiece(r,c,'tray-bottom')));
+  leftCells.forEach(({r,c})=> trayLeft.appendChild(makePiece(r,c,'tray-left',trayScale)));
+  rightCells.forEach(({r,c})=> trayRight.appendChild(makePiece(r,c,'tray-right',trayScale)));
+  bottomCells.forEach(({r,c})=> trayBottom.appendChild(makePiece(r,c,'tray-bottom',1)));
 
   trayLeft.classList.toggle('empty', leftCells.length===0);
   trayRight.classList.toggle('empty', rightCells.length===0);
@@ -812,14 +865,20 @@ function onPointerUp(e){
   const dropzone = target ? target.closest('.dropzone') : null;
 
   if (dropzone && dropzone.dataset.row === piece.dataset.row && dropzone.dataset.col === piece.dataset.col && !dropzone.classList.contains('filled')) {
-    // correct placement -> lock into grid
+    // correct placement -> lock into grid at full resolution
+    // (tray pieces may have been rendered as smaller thumbnails)
     const gridZone = document.getElementById('grid-zone');
-    const gzRect = gridZone.getBoundingClientRect();
+    const fullW = parseFloat(gridZone.style.width);
+    const fullH = parseFloat(gridZone.style.height);
+    const dzW = parseFloat(dropzone.style.width);
+    const dzH = parseFloat(dropzone.style.height);
     piece.style.position = 'absolute';
     piece.style.left = (parseFloat(dropzone.style.left)) + 'px';
     piece.style.top = (parseFloat(dropzone.style.top)) + 'px';
     piece.style.width = dropzone.style.width;
     piece.style.height = dropzone.style.height;
+    piece.style.backgroundSize = `${fullW}px ${fullH}px`;
+    piece.style.backgroundPosition = `-${parseFloat(piece.dataset.col)*dzW}px -${parseFloat(piece.dataset.row)*dzH}px`;
     piece.style.margin = '0';
     piece.classList.add('locked');
     piece.removeEventListener('pointerdown', onPointerDown);
