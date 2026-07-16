@@ -573,6 +573,16 @@ function svgToDataUrl(svgString){
   return 'data:image/svg+xml;base64,' + base64;
 }
 
+// Artwork source for a puzzle. If a real image file is supplied (p.img),
+// use it; otherwise fall back to the built-in flat SVG scene. Image paths in
+// the data are written relative to the puzzle/picker pages, which all live two
+// levels deep under the site root (e.g. /bible/puzzle-little-explorer/…), so a
+// path like "../../images/noahs-ark.jpg" resolves to /images/noahs-ark.jpg.
+// For the pieces to line up, images should be 4:3 (landscape), e.g. 1200×900.
+function puzzleImageUrl(p){
+  return p.img ? p.img : svgToDataUrl(p.svg);
+}
+
 /* =========================================================
    PAGE INIT
    Each puzzle now lives on its own page (e.g.
@@ -589,7 +599,7 @@ function initGroupPage(group){
     card.className = 'puzzle-card';
     card.href = p.slug + '.html';
     card.innerHTML = `
-      <img class="thumb" src="${svgToDataUrl(p.svg)}" alt="${p.title}">
+      <img class="thumb" src="${puzzleImageUrl(p)}" alt="${p.title}">
       <div class="info">
         <h3>${p.title}</h3>
         <p class="verse">${p.verse}</p>
@@ -647,7 +657,7 @@ function buildPuzzleDom(puzzle){
   const { w: displayW, h: displayH } = computeDisplaySize();
   const pieceW = displayW / cols;
   const pieceH = displayH / rows;
-  const dataUrl = svgToDataUrl(puzzle.svg);
+  const dataUrl = puzzleImageUrl(puzzle);
 
   const gridZone = document.getElementById('grid-zone');
   const trayLeft = document.getElementById('tray-left');
