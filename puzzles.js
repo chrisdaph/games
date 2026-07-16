@@ -547,9 +547,9 @@ const svgResurrection = `<svg ${SVG_HEAD}>
    ========================================================= */
 const PUZZLES = [
   // Toddlers 2-5
-  { id:'ark', slug:'noahs-ark', group:'toddler', title:"Noah's Ark", verse:'Genesis 6–9', cols:2, rows:2, svg:svgArk },
-  { id:'moses-basket', slug:'baby-moses', group:'toddler', title:'Baby Moses in the Basket', verse:'Exodus 2:1–10', cols:3, rows:2, svg:svgMoses },
-  { id:'shepherd', slug:'good-shepherd', group:'toddler', title:'The Good Shepherd', verse:'John 10:11', cols:3, rows:2, svg:svgShepherd },
+  { id:'ark', slug:'noahs-ark', group:'toddler', title:"Noah's Ark", verse:'Genesis 6–9', cols:2, rows:2, svg:svgArk, img:'../../images/noahs-ark.jpg' },
+  { id:'moses-basket', slug:'baby-moses', group:'toddler', title:'Baby Moses in the Basket', verse:'Exodus 2:1–10', cols:3, rows:2, svg:svgMoses, img:'../../images/baby-moses.jpg' },
+  { id:'shepherd', slug:'good-shepherd', group:'toddler', title:'The Good Shepherd', verse:'John 10:11', cols:3, rows:2, svg:svgShepherd, img:'../../images/good-shepherd.jpg' },
   { id:'bless-children', slug:'jesus-blesses-children', group:'toddler', title:'Jesus Blesses the Children', verse:'Mark 10:13–16', cols:3, rows:2, svg:svgBlessChildren },
   { id:'calms-storm', slug:'jesus-calms-storm', group:'toddler', title:'Jesus Calms the Storm', verse:'Mark 4:35–41', cols:2, rows:2, svg:svgCalmsStorm },
 
