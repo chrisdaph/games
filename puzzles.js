@@ -550,18 +550,18 @@ const PUZZLES = [
   { id:'ark', slug:'noahs-ark', group:'toddler', title:"Noah's Ark", verse:'Genesis 6–9', cols:2, rows:2, svg:svgArk, img:'../../images/noahs-ark.jpg' },
   { id:'moses-basket', slug:'baby-moses', group:'toddler', title:'Baby Moses in the Basket', verse:'Exodus 2:1–10', cols:3, rows:2, svg:svgMoses, img:'../../images/baby-moses.jpg' },
   { id:'shepherd', slug:'good-shepherd', group:'toddler', title:'The Good Shepherd', verse:'John 10:11', cols:3, rows:2, svg:svgShepherd, img:'../../images/good-shepherd.jpg' },
-  { id:'bless-children', slug:'jesus-blesses-children', group:'toddler', title:'Jesus Blesses the Children', verse:'Mark 10:13–16', cols:3, rows:2, svg:svgBlessChildren },
-  { id:'calms-storm', slug:'jesus-calms-storm', group:'toddler', title:'Jesus Calms the Storm', verse:'Mark 4:35–41', cols:2, rows:2, svg:svgCalmsStorm },
+  { id:'bless-children', slug:'jesus-blesses-children', group:'toddler', title:'Jesus Blesses the Children', verse:'Mark 10:13–16', cols:3, rows:2, svg:svgBlessChildren, img:'../../images/jesus-blesses-children.jpg' },
+  { id:'calms-storm', slug:'jesus-calms-storm', group:'toddler', title:'Jesus Calms the Storm', verse:'Mark 4:35–41', cols:2, rows:2, svg:svgCalmsStorm, img:'../../images/jesus-calms-storm.jpg' },
 
   // Early elementary 6-8
-  { id:'david-goliath', slug:'david-and-goliath', group:'early', title:'David and Goliath', verse:'1 Samuel 17', cols:3, rows:3, svg:svgDavid },
-  { id:'jonah', slug:'jonah-and-the-fish', group:'early', title:'Jonah and the Big Fish', verse:'Jonah 1–2', cols:4, rows:3, svg:svgJonah },
-  { id:'daniel', slug:'daniel-lions-den', group:'early', title:"Daniel in the Lions' Den", verse:'Daniel 6', cols:4, rows:4, svg:svgDaniel },
-  { id:'good-samaritan', slug:'good-samaritan', group:'early', title:'The Good Samaritan', verse:'Luke 10:25–37', cols:4, rows:3, svg:svgGoodSamaritan },
+  { id:'david-goliath', slug:'david-and-goliath', group:'early', title:'David and Goliath', verse:'1 Samuel 17', cols:3, rows:3, svg:svgDavid, img:'../../images/david-and-goliath.jpg' },
+  { id:'jonah', slug:'jonah-and-the-fish', group:'early', title:'Jonah and the Big Fish', verse:'Jonah 1–2', cols:4, rows:3, svg:svgJonah, img:'../../images/jonah-and-the-fish.jpg' },
+  { id:'daniel', slug:'daniel-lions-den', group:'early', title:"Daniel in the Lions' Den", verse:'Daniel 6', cols:4, rows:4, svg:svgDaniel, img:'../../images/daniel-lions-den.jpg' },
+  { id:'good-samaritan', slug:'good-samaritan', group:'early', title:'The Good Samaritan', verse:'Luke 10:25–37', cols:4, rows:3, svg:svgGoodSamaritan, img:'../../images/good-samaritan.jpg' },
   { id:'zacchaeus', slug:'zacchaeus', group:'early', title:'Zacchaeus in the Tree', verse:'Luke 19:1–10', cols:3, rows:3, svg:svgZacchaeus },
 
   // Older kids 9-12
-  { id:'red-sea', slug:'crossing-red-sea', group:'older', title:'Crossing the Red Sea', verse:'Exodus 14', cols:5, rows:5, svg:svgRedSea },
+  { id:'red-sea', slug:'crossing-red-sea', group:'older', title:'Crossing the Red Sea', verse:'Exodus 14', cols:5, rows:5, svg:svgRedSea, img:'../../images/crossing-red-sea.jpg' },
   { id:'nativity', slug:'first-christmas', group:'older', title:'The First Christmas', verse:'Luke 2:1–20', cols:6, rows:5, svg:svgNativity },
   { id:'feeding5000', slug:'feeding-the-5000', group:'older', title:'Feeding the 5,000', verse:'John 6:1–14', cols:7, rows:5, svg:svgFeeding },
   { id:'last-supper', slug:'last-supper', group:'older', title:'The Last Supper', verse:'Matthew 26:17–30', cols:6, rows:5, svg:svgLastSupper },
