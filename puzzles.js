@@ -558,14 +558,14 @@ const PUZZLES = [
   { id:'jonah', slug:'jonah-and-the-fish', group:'early', title:'Jonah and the Big Fish', verse:'Jonah 1–2', cols:4, rows:3, svg:svgJonah, img:'../../images/jonah-and-the-fish.jpg' },
   { id:'daniel', slug:'daniel-lions-den', group:'early', title:"Daniel in the Lions' Den", verse:'Daniel 6', cols:4, rows:4, svg:svgDaniel, img:'../../images/daniel-lions-den.jpg' },
   { id:'good-samaritan', slug:'good-samaritan', group:'early', title:'The Good Samaritan', verse:'Luke 10:25–37', cols:4, rows:3, svg:svgGoodSamaritan, img:'../../images/good-samaritan.jpg' },
-  { id:'zacchaeus', slug:'zacchaeus', group:'early', title:'Zacchaeus in the Tree', verse:'Luke 19:1–10', cols:3, rows:3, svg:svgZacchaeus },
+  { id:'zacchaeus', slug:'zacchaeus', group:'early', title:'Zacchaeus in the Tree', verse:'Luke 19:1–10', cols:3, rows:3, svg:svgZacchaeus, img:'../../images/zacchaeus.jpg' },
 
   // Older kids 9-12
   { id:'red-sea', slug:'crossing-red-sea', group:'older', title:'Crossing the Red Sea', verse:'Exodus 14', cols:5, rows:5, svg:svgRedSea, img:'../../images/crossing-red-sea.jpg' },
-  { id:'nativity', slug:'first-christmas', group:'older', title:'The First Christmas', verse:'Luke 2:1–20', cols:6, rows:5, svg:svgNativity },
-  { id:'feeding5000', slug:'feeding-the-5000', group:'older', title:'Feeding the 5,000', verse:'John 6:1–14', cols:7, rows:5, svg:svgFeeding },
-  { id:'last-supper', slug:'last-supper', group:'older', title:'The Last Supper', verse:'Matthew 26:17–30', cols:6, rows:5, svg:svgLastSupper },
-  { id:'resurrection', slug:'empty-tomb', group:'older', title:'The Empty Tomb', verse:'Matthew 28:1–10', cols:5, rows:5, svg:svgResurrection },
+  { id:'nativity', slug:'first-christmas', group:'older', title:'The First Christmas', verse:'Luke 2:1–20', cols:6, rows:5, svg:svgNativity, img:'../../images/first-christmas.jpg' },
+  { id:'feeding5000', slug:'feeding-the-5000', group:'older', title:'Feeding the 5,000', verse:'John 6:1–14', cols:7, rows:5, svg:svgFeeding, img:'../../images/feeding-the-5000.jpg' },
+  { id:'last-supper', slug:'last-supper', group:'older', title:'The Last Supper', verse:'Matthew 26:17–30', cols:6, rows:5, svg:svgLastSupper, img:'../../images/last-supper.jpg' },
+  { id:'resurrection', slug:'empty-tomb', group:'older', title:'The Empty Tomb', verse:'Matthew 28:1–10', cols:5, rows:5, svg:svgResurrection, img:'../../images/empty-tomb.jpg' },
 ];
 
 function svgToDataUrl(svgString){
