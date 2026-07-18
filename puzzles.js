@@ -599,7 +599,7 @@ function initGroupPage(group){
     card.className = 'puzzle-card';
     card.href = p.slug + '.html';
     card.innerHTML = `
-      <img class="thumb" src="${puzzleImageUrl(p)}" alt="${p.title}">
+      <img class="thumb" src="${puzzleImageUrl(p)}" alt="${p.title} Bible jigsaw puzzle" width="1448" height="1086" loading="lazy" decoding="async">
       <div class="info">
         <h3>${p.title}</h3>
         <p class="verse">${p.verse}</p>
