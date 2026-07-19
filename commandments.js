@@ -3,9 +3,9 @@
    ========================================================= */
 const COMMANDMENTS = [
   { n:1,  text:'Love God above everything else',        verse:'Exodus 20:3',   icon:'🙏' },
-  { n:2,  text:"Don't worship idols or statues",         verse:'Exodus 20:4–5', icon:'🗿' },
+  { n:2,  text:"Don't worship idols or statues",         verse:'Exodus 20:4-5', icon:'🗿' },
   { n:3,  text:"Use God's name with respect",            verse:'Exodus 20:7',   icon:'🗣️' },
-  { n:4,  text:'Rest and remember God on the Sabbath',   verse:'Exodus 20:8–11', icon:'😴' },
+  { n:4,  text:'Rest and remember God on the Sabbath',   verse:'Exodus 20:8-11', icon:'😴' },
   { n:5,  text:'Honor your mother and father',           verse:'Exodus 20:12',  icon:'👪' },
   { n:6,  text:'Do not hurt or harm others',              verse:'Exodus 20:13', icon:'🤝' },
   { n:7,  text:'Be faithful and true in your family',    verse:'Exodus 20:14',  icon:'💍' },
@@ -121,7 +121,7 @@ document.getElementById('cmd-play-again').addEventListener('click', ()=>{
   document.getElementById('overlay-cmd').classList.remove('active');
   openCommandments();
 });
-// "Back to Puzzles" is a plain <a href="index.html"> in the HTML —
+// "Back to Puzzles" is a plain <a href="index.html"> in the HTML -
 // this is a single-page game, so no in-page screen switching is needed.
 
 openCommandments();
