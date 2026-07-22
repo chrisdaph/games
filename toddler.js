@@ -138,7 +138,7 @@ function initFeelings(){
     shuffleArray(FEELINGS.slice()).forEach(f=>{
       const el = document.createElement('div');
       el.className = 'match-tile desc';
-      el.textContent = f.desc;
+      el.textContent = f.label;
       el.addEventListener('click', ()=> onDescClick(el, f));
       descCol.appendChild(el);
     });

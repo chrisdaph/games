@@ -554,8 +554,16 @@
   .toddler-card.goodchoice{ background: linear-gradient(135deg,#c9a4e8,#7b5ea7); }
 
   /* --- Stop and Go --- */
-  .stopgo-wrap{ text-align:center; padding: 10px 16px 6px; }
-  .stopgo-light{ font-size:6rem; line-height:1; margin: 10px 0; }
+  .stopgo-wrap{
+    text-align:center;
+    padding: 10px 16px 6px;
+    min-height: 56vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .stopgo-light{ font-size:7rem; line-height:1; margin: 10px 0; }
   .stopgo-light.pulse{ animation: stopgo-pulse .5s ease; }
   @keyframes stopgo-pulse{
     0%{ transform:scale(1); }
@@ -627,13 +635,13 @@
   }
   .match-col{ display:flex; flex-direction:column; gap:18px; width:100%; }
   .match-tile{
-    min-height:70px;
+    height:80px;
     border-radius:14px;
     padding:14px 18px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     cursor:pointer;
     font-size:.92rem;
-    line-height:1.35;
+    line-height:1.3;
     transition: transform .15s ease, box-shadow .15s ease;
     user-select:none;
     position:relative;
@@ -642,11 +650,12 @@
     align-items:center;
     justify-content:center;
     gap:12px;
+    overflow:hidden;
   }
   .match-tile:hover{ transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 16px rgba(0,0,0,0.18); }
   .match-tile:active{ transform: translateY(0) scale(0.99); }
   .match-tile.face{ background: linear-gradient(135deg,#fff,#eef6ff); font-size:2.2rem; border: 2px solid #cfe8fb; }
-  .match-tile.desc{ background: linear-gradient(135deg,#fffaf0,#fbf0d9); color:#4a3418; border: 1px dashed #e0c98f; justify-content:flex-start; text-align:left; }
+  .match-tile.desc{ background: linear-gradient(135deg,#fffaf0,#fbf0d9); color:#4a3418; border: 1px dashed #e0c98f; font-size:1.15rem; font-weight:bold; text-align:center; }
   .match-tile.selected{ outline: 3px solid var(--berry); outline-offset:2px; }
   .match-tile.matched{ opacity:.55; cursor:default; box-shadow:none; transform:none !important; }
   .match-tile.face.matched{ background: linear-gradient(160deg,#7fc98f,#4f9d63) !important; border-color:#4f9d63; }
@@ -684,10 +693,18 @@
   .match-recap b{ color:#6a5acd; }
 
   /* --- Balloon Breathing --- */
-  .breathe-wrap{ text-align:center; padding: 10px 16px; }
+  .breathe-wrap{
+    text-align:center;
+    padding: 10px 16px;
+    min-height: 56vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
   .breathe-balloon-zone{ display:flex; align-items:flex-end; justify-content:center; height: 240px; margin: 10px 0; }
   .breathe-balloon{
-    font-size:5rem;
+    font-size:6rem;
     transform-origin: bottom center;
     transform: scale(1);
     transition: transform 4s ease-in-out;
@@ -711,8 +728,16 @@
   .breathe-stars{ font-size:1.6rem; margin-top:14px; letter-spacing:4px; }
 
   /* --- Good Choice --- */
-  .choice-wrap{ text-align:center; padding: 10px 16px; }
-  .choice-scene{ font-size:3.4rem; margin: 6px 0 10px; }
+  .choice-wrap{
+    text-align:center;
+    padding: 10px 16px;
+    min-height: 56vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .choice-scene{ font-size:4rem; margin: 6px 0 10px; }
   .choice-text{ font-size:1.15rem; font-weight:bold; color:#4a3418; max-width:480px; margin:0 auto 20px; line-height:1.4; }
   .choice-buttons{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; margin-bottom:16px; }
   .choice-btn{
