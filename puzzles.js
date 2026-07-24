@@ -670,6 +670,16 @@ function buildPuzzleDom(puzzle){
   gridZone.style.width = displayW + 'px';
   gridZone.style.height = displayH + 'px';
 
+  // Below the same breakpoint the CSS uses to stack the stage into a single
+  // column (styles.css: `@media (max-width:760px)`), the side trays no
+  // longer sit beside the grid, they render full-width underneath it. The
+  // column-fitting math below assumes real side-by-side space next to the
+  // grid; on a narrow screen that space is ~0, which used to floor the
+  // thumbnail scale down to a barely-visible minimum. So on mobile, skip
+  // the side trays entirely and drop every piece into the full-width
+  // bottom tray at native size, big enough to see and tap, and let it wrap.
+  const isMobileLayout = window.innerWidth <= 760;
+
   // Side trays: try to fit every piece within the grid's height so nothing
   // overflows into a scrolling bottom tray. Pick whichever column count
   // (2-6) yields the largest thumbnail scale while still fitting both the
@@ -688,33 +698,36 @@ function buildPuzzleDom(puzzle){
   const maxSideWidth = Math.max(70, (containerW - displayW - stageGap * 2) / 2);
   const MIN_USABLE_SCALE = 0.5;
 
-  let bestCols = 2, bestScale = 0;
-  for (let tc = 2; tc <= 6; tc++){
-    const rowsNeeded = Math.ceil(halfPieces / tc);
-    const heightScale = Math.min(1, displayH / (rowsNeeded * (pieceH + trayGap)));
-    const widthScale = Math.min(1, (maxSideWidth - trayPad - (tc - 1) * trayGap) / (pieceW * tc));
-    const scale = Math.min(heightScale, widthScale);
-    if (scale > bestScale){
-      bestScale = scale;
-      bestCols = tc;
-    }
-  }
+  let trayCols = 2, trayScale = 1, allowOverflow = isMobileLayout;
 
-  let trayCols, trayScale, allowOverflow;
-  if (bestScale >= MIN_USABLE_SCALE){
-    trayCols = bestCols;
-    trayScale = bestScale;
-    allowOverflow = false;
-  } else {
-    // Pieces are few enough that shrinking to avoid overflow isn't worth
-    // it, keep them as large as the available width allows (never wider
-    // than the space actually next to the grid) and let any remainder
-    // spill into the bottom tray.
-    trayCols = 2;
-    // Width is a hard cap (violating it wraps the layout), never floor it
-    // back up, even if that means a smaller-than-ideal thumbnail.
-    trayScale = Math.min(1, (maxSideWidth - trayPad - trayGap) / (pieceW * 2));
-    allowOverflow = true;
+  if (!isMobileLayout){
+    let bestCols = 2, bestScale = 0;
+    for (let tc = 2; tc <= 6; tc++){
+      const rowsNeeded = Math.ceil(halfPieces / tc);
+      const heightScale = Math.min(1, displayH / (rowsNeeded * (pieceH + trayGap)));
+      const widthScale = Math.min(1, (maxSideWidth - trayPad - (tc - 1) * trayGap) / (pieceW * tc));
+      const scale = Math.min(heightScale, widthScale);
+      if (scale > bestScale){
+        bestScale = scale;
+        bestCols = tc;
+      }
+    }
+
+    if (bestScale >= MIN_USABLE_SCALE){
+      trayCols = bestCols;
+      trayScale = bestScale;
+      allowOverflow = false;
+    } else {
+      // Pieces are few enough that shrinking to avoid overflow isn't worth
+      // it, keep them as large as the available width allows (never wider
+      // than the space actually next to the grid) and let any remainder
+      // spill into the bottom tray.
+      trayCols = 2;
+      // Width is a hard cap (violating it wraps the layout), never floor it
+      // back up, even if that means a smaller-than-ideal thumbnail.
+      trayScale = Math.min(1, (maxSideWidth - trayPad - trayGap) / (pieceW * 2));
+      allowOverflow = true;
+    }
   }
 
   const trayPieceW = pieceW * trayScale;
@@ -756,7 +769,13 @@ function buildPuzzleDom(puzzle){
   // back to filling both sides at full size and spilling any remainder into
   // the bottom tray.
   let leftCells, rightCells, bottomCells;
-  if (!allowOverflow){
+  if (isMobileLayout){
+    // One full-width tray at native piece size, wraps as needed, rather
+    // than three separate stacked boxes with artificially shrunk pieces.
+    leftCells = [];
+    rightCells = [];
+    bottomCells = cells.slice();
+  } else if (!allowOverflow){
     leftCells = cells.slice(0, halfPieces);
     rightCells = cells.slice(halfPieces);
     bottomCells = [];
