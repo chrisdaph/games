@@ -929,13 +929,22 @@ document.getElementById('play-again')?.addEventListener('click', ()=>{
 // "Choose Another Puzzle" is a plain <a href="index.html"> in the HTML,
 // linking back to that age group's picker page.
 
-// Rebuild layout responsively if window resizes while playing
+// Rebuild layout responsively if window resizes while playing. Mobile
+// browsers fire `resize` when their address bar collapses/expands on
+// scroll, that only changes innerHeight, never innerWidth, so it's
+// filtered out here; otherwise every scroll would wipe the board and
+// reshuffle all pieces, losing anything already placed correctly.
 let resizeTimer;
+let lastResizeWidth = window.innerWidth;
 window.addEventListener('resize', ()=>{
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(()=>{
-    if (activePuzzle){
-      // Only rebuild if not mid-drag to avoid losing placed pieces
+    const widthChanged = window.innerWidth !== lastResizeWidth;
+    lastResizeWidth = window.innerWidth;
+    // Skip rebuilds triggered by mobile chrome show/hide, and never
+    // rebuild mid-drag (that would yank the piece out from under a
+    // finger and could still lose the pieces already placed).
+    if (activePuzzle && widthChanged && !dragState){
       buildPuzzleDom(activePuzzle);
       placedCount = 0;
     }

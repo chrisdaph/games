@@ -560,7 +560,7 @@
     transition: transform .12s ease;
   }
   .puzzle-card:hover{ transform: translateY(-3px); }
-  .puzzle-card .thumb{ width:100%; display:block; aspect-ratio: 4/3; object-fit:cover; background:#eee; }
+  .puzzle-card .thumb{ width:100%; height:auto; display:block; aspect-ratio: 4/3; object-fit:cover; background:#eee; }
   .puzzle-card .info{ padding:12px 14px 16px; }
   .puzzle-card h3{ margin:0 0 4px; font-size:1.05rem; color:#333; }
   .puzzle-card .verse{ font-size:.82rem; color:#777; margin:0 0 6px; font-style: italic; }
@@ -572,6 +572,20 @@
     padding:3px 9px;
     border-radius:999px;
     font-weight:bold;
+  }
+
+  /* On phones, a single tall full-width card per row means a lot of
+     scrolling to browse 5 puzzles. Switch to a compact 2-up grid so kids
+     (or a parent) can see and pick a puzzle at a glance. */
+  @media (max-width:600px){
+    .puzzle-grid{
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .puzzle-card .info{ padding: 8px 10px 10px; }
+    .puzzle-card h3{ font-size:.85rem; line-height:1.25; margin:0 0 3px; }
+    .puzzle-card .verse{ font-size:.7rem; margin:0 0 5px; }
+    .puzzle-card .pieces-tag{ font-size:.65rem; padding:2px 7px; }
   }
 
   /* --- Puzzle play screen --- */
