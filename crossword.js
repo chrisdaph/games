@@ -290,7 +290,7 @@ function showCwCelebration(){
   const recap = document.getElementById('cw-recap');
   recap.innerHTML = cwWords
     .slice().sort((a, b) => a.number - b.number)
-    .map(w => `<div class="row">${w.emoji} <b>${w.answer}</b> — ${w.clue}</div>`)
+    .map(w => `<div class="row">${w.emoji} <b>${w.answer}</b>, ${w.clue}</div>`)
     .join('');
   document.getElementById('overlay-cw').classList.add('active');
 }

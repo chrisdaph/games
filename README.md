@@ -1,10 +1,10 @@
 # Kids Games
 
 A kid-friendly games site with two categories: **Bible Games for Kids** (jigsaw
-puzzles for three age groups, a Ten Commandments matching game, and a Bible
-crossword, all original flat-illustration SVG art, no external image
-dependencies) and **Toddler Games** (four behavior and emotional-regulation
-games for ages 2-5).
+puzzles for three age groups, a Ten Commandments matching game, a Bible
+crossword, and a Matthew Bible quiz, all original flat-illustration SVG art,
+no external image dependencies) and **Toddler Games** (four behavior and
+emotional-regulation games for ages 2-5).
 
 ## Site structure
 
@@ -19,6 +19,7 @@ games for ages 2-5).
 /bible/puzzle-faith-builders/<puzzle>.html
 /bible/ten-commandments-match.html       matching game
 /bible/bible-crossword.html              crossword game (3 puzzles: Jesus, Noah, Moses)
+/bible/matthew-quiz.html                 10-question picture quiz on the book of Matthew
 /toddler/index.html                      Toddler Games category page
 /toddler/stop-and-go.html                impulse control (wait for green, then tap)
 /toddler/feelings-match.html             emotional vocabulary matching game
@@ -27,6 +28,7 @@ games for ages 2-5).
 /puzzles.js                              shared jigsaw engine, scene art, puzzle data
 /commandments.js                         matching-game logic
 /crossword.js                            crossword engine (grid, clues, on-screen keyboard)
+/quiz.js                                 Matthew quiz engine (question flow, scoring)
 /toddler.js                              logic for all four toddler games
 /styles.css                              shared styling for every page
 /sitemap.xml                             lists all public pages
@@ -38,8 +40,10 @@ from `<body data-group="...">` (picker) or `<body data-puzzle="...">` (a single
 puzzle), both set in the page's own HTML. `commandments.js` is only loaded by
 `ten-commandments-match.html`. `crossword.js` is only loaded by
 `bible-crossword.html` and builds its grid/clues from a `CROSSWORDS` object
-defined at the top of the file. `toddler.js` is loaded by all four toddler game
-pages and reads which game to run from `<body data-game="...">`.
+defined at the top of the file. `quiz.js` is only loaded by `matthew-quiz.html`
+and reads questions from a `MATTHEW_QUIZ` array at the top of the file.
+`toddler.js` is loaded by all four toddler game pages and reads which game to
+run from `<body data-game="...">`.
 
 ## SEO
 
@@ -62,6 +66,7 @@ No build step or server required. Just open `index.html` in any modern browser
 - **Faith Builders (ages 9-12):** 5 puzzles, 25-35 pieces each
 - **Ten Commandments Match:** a tap-to-match game for all ages (Exodus 20)
 - **Bible Crossword:** 3 word puzzles (Jesus, Noah, Moses) for ages 5+, tap clues and spell answers on an on-screen keyboard
+- **Bible Quiz: Matthew:** 10 picture multiple-choice questions for ages 5-7, with retry-friendly feedback and a star rating
 - **Stop and Go:** tap only when the light is green, practicing waiting and impulse control
 - **Feelings Match:** a tap-to-match game pairing faces to feelings
 - **Balloon Breathing:** a guided slow-breathing calm down activity
