@@ -16,6 +16,16 @@
     color: var(--ink);
     min-height:100vh;
   }
+
+  /* --- Home page only: illustrated meadow backdrop --- */
+  body.home-page{
+    background:
+      linear-gradient(180deg, rgba(255,248,236,0.86) 0%, rgba(234,246,255,0.8) 45%, rgba(234,246,255,0.92) 100%),
+      url(images/homepage-bg.jpg) top center / cover no-repeat fixed;
+  }
+  @media (max-width:760px){
+    body.home-page{ background-attachment: scroll; }
+  }
   header{
     text-align:center;
     padding: 22px 16px 10px;
@@ -54,8 +64,45 @@
     50%{ opacity:.55; transform: scale(.8); }
   }
   .home-header h1{ font-size: 2.3rem; }
+
+  /* --- Home page only: floating background friends (tiny drifting sparkles) --- */
+  .bg-friends{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .bg-friend{
+    position:absolute;
+    opacity:.6;
+    animation: bg-friend-float 7s ease-in-out infinite;
+  }
+  .friend-1{ top:8%;  left:6%;  animation-duration:6.5s; }
+  .friend-2{ top:16%; right:9%; animation-duration:8s;   animation-delay:.6s; }
+  .friend-3{ top:46%; left:4%;  animation-duration:7.5s; animation-delay:1.4s; }
+  .friend-4{ top:62%; right:7%; animation-duration:6s;   animation-delay:.3s; }
+  .friend-5{ top:82%; left:11%; animation-duration:8.5s; animation-delay:2s; }
+  @keyframes bg-friend-float{
+    0%, 100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-22px) rotate(12deg); }
+  }
+
+  /* --- Home page only: playful card entrance --- */
+  .card-pop{
+    opacity:0;
+    animation: card-pop-in .7s ease-out forwards;
+  }
+  @keyframes card-pop-in{
+    0%{ opacity:0; transform: translateY(40px) scale(.82); }
+    60%{ opacity:1; transform: translateY(-8px) scale(1.04); }
+    80%{ transform: translateY(2px) scale(.99); }
+    100%{ opacity:1; transform: translateY(0) scale(1); }
+  }
+
   @media (prefers-reduced-motion: reduce){
-    .brand-logo, .logo-sparkle{ animation: none; }
+    .brand-logo, .logo-sparkle, .bg-friend{ animation: none; }
+    .card-pop{ opacity:1; animation:none; }
   }
   main{
     max-width: 1000px;
