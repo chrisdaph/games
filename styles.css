@@ -17,14 +17,13 @@
     min-height:100vh;
   }
 
-  /* --- Home page only: illustrated meadow backdrop --- */
+  /* --- Home page only: illustrated meadow backdrop ---
+     background-attachment:fixed is deliberately avoided here, iOS Safari has
+     long-standing bugs where a fixed background can fail to render at all. */
   body.home-page{
     background:
       linear-gradient(180deg, rgba(255,248,236,0.86) 0%, rgba(234,246,255,0.8) 45%, rgba(234,246,255,0.92) 100%),
-      url(images/homepage-bg.jpg) top center / cover no-repeat fixed;
-  }
-  @media (max-width:760px){
-    body.home-page{ background-attachment: scroll; }
+      url(images/homepage-bg.jpg) top center / cover no-repeat scroll;
   }
   header{
     text-align:center;
