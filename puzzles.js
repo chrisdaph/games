@@ -836,6 +836,11 @@ function onPointerDown(e){
     offsetY: e.clientY - rect.top,
     width: rect.width,
     height: rect.height,
+    // Remembered so a wrong drop can snap back to this exact tray slot
+    // instead of being appended after the last piece, reordering
+    // (and, on fixed-size side trays, potentially overflowing) the tray.
+    homeParent: piece.parentElement,
+    homeNextSibling: piece.nextElementSibling,
   };
 
   piece.classList.add('dragging');
@@ -904,13 +909,21 @@ function onPointerUp(e){
       setTimeout(showCelebration, 250);
     }
   } else {
-    // return to its home tray (left/right/bottom)
+    // return to its home tray (left/right/bottom), snapping back into the
+    // exact slot it was picked up from rather than the end of the tray
     const homeTray = document.getElementById(piece.dataset.homeTray) || document.getElementById('tray-bottom');
     piece.style.position = 'relative';
     piece.style.left = '';
     piece.style.top = '';
     piece.style.margin = '';
-    homeTray.appendChild(piece);
+    const { homeParent, homeNextSibling } = dragState;
+    if (homeNextSibling && homeNextSibling.parentElement === homeParent){
+      homeParent.insertBefore(piece, homeNextSibling);
+    } else if (homeParent && homeParent.isConnected){
+      homeParent.appendChild(piece);
+    } else {
+      homeTray.appendChild(piece);
+    }
   }
 
   dragState = null;
