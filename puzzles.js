@@ -690,6 +690,10 @@ function buildPuzzleDom(puzzle){
   const trayGap = 8;
   const trayPad = 16;
   const stageGap = 14;
+  // A couple percent of headroom below an exact-fit scale, so browser
+  // subpixel rounding never tips a row/column that lands right on the
+  // boundary into not actually fitting.
+  const FIT_SAFETY = 0.97;
   const totalPieces = cols * rows;
   const halfPieces = Math.ceil(totalPieces / 2);
   // Measure main's actual rendered width rather than assuming its CSS
@@ -704,8 +708,17 @@ function buildPuzzleDom(puzzle){
     let bestCols = 2, bestScale = 0;
     for (let tc = 2; tc <= 6; tc++){
       const rowsNeeded = Math.ceil(halfPieces / tc);
-      const heightScale = Math.min(1, displayH / (rowsNeeded * (pieceH + trayGap)));
-      const widthScale = Math.min(1, (maxSideWidth - trayPad - (tc - 1) * trayGap) / (pieceW * tc));
+      // trayGap and trayPad are fixed CSS px, they don't shrink with the
+      // piece scale, so they must be subtracted before dividing, the same
+      // way widthScale already does it below. Baking them into the scaled
+      // quantity (the old `rowsNeeded * (pieceH + trayGap)`) overestimates
+      // how many rows actually fit, letting a tray's real content spill
+      // into an extra column that overflows past its fixed width and
+      // behind the puzzle board. FIT_SAFETY trims a couple percent off an
+      // exact-fit scale so browser subpixel rounding can never tip a row
+      // that lands right on the boundary into not fitting after all.
+      const heightScale = Math.min(1, FIT_SAFETY * (displayH - trayPad - (rowsNeeded - 1) * trayGap) / (rowsNeeded * pieceH));
+      const widthScale = Math.min(1, FIT_SAFETY * (maxSideWidth - trayPad - (tc - 1) * trayGap) / (pieceW * tc));
       const scale = Math.min(heightScale, widthScale);
       if (scale > bestScale){
         bestScale = scale;
@@ -725,7 +738,7 @@ function buildPuzzleDom(puzzle){
       trayCols = 2;
       // Width is a hard cap (violating it wraps the layout), never floor it
       // back up, even if that means a smaller-than-ideal thumbnail.
-      trayScale = Math.min(1, (maxSideWidth - trayPad - trayGap) / (pieceW * 2));
+      trayScale = Math.min(1, FIT_SAFETY * (maxSideWidth - trayPad - trayGap) / (pieceW * 2));
       allowOverflow = true;
     }
   }
