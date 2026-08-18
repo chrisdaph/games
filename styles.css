@@ -191,6 +191,7 @@
   .activity-card:hover{ transform: translateY(-3px); }
   .activity-card:active{ transform: translateY(1px); }
   .activity-card .emoji{ font-size:2.4rem; flex-shrink:0; }
+  .activity-icon{ width:64px; height:64px; flex-shrink:0; object-fit:contain; }
   .activity-card h3{ margin:0 0 2px; font-size:1.05rem; }
   .activity-card p{ margin:0; font-size:.85rem; opacity:.85; }
 
