@@ -3,7 +3,7 @@
 A kid-friendly games site with two categories: **Bible Games for Kids** (jigsaw
 puzzles for three age groups, a Ten Commandments matching game, a Bible
 crossword, and a Matthew Bible quiz, all original flat-illustration SVG art,
-no external image dependencies) and **Toddler Games** (four behavior and
+no external image dependencies) and **Toddler Games** (five behavior and
 emotional-regulation games for ages 2-5).
 
 ## Site structure
@@ -25,6 +25,7 @@ emotional-regulation games for ages 2-5).
 /toddler/feelings-match.html             emotional vocabulary matching game
 /toddler/balloon-breathing.html          slow-breathing calm down game
 /toddler/good-choice.html                behavior scenario game
+/toddler/glitter-jar.html                shake-and-settle calm down game
 /puzzles.js                              shared jigsaw engine, scene art, puzzle data
 /commandments.js                         matching-game logic
 /crossword.js                            crossword engine (grid, clues, on-screen keyboard)
@@ -42,7 +43,7 @@ puzzle), both set in the page's own HTML. `commandments.js` is only loaded by
 `bible-crossword.html` and builds its grid/clues from a `CROSSWORDS` object
 defined at the top of the file. `quiz.js` is only loaded by `matthew-quiz.html`
 and reads questions from a `MATTHEW_QUIZ` array at the top of the file.
-`toddler.js` is loaded by all four toddler game pages and reads which game to
+`toddler.js` is loaded by all five toddler game pages and reads which game to
 run from `<body data-game="...">`.
 
 ## SEO
@@ -71,6 +72,7 @@ No build step or server required. Just open `index.html` in any modern browser
 - **Feelings Match:** a tap-to-match game pairing faces to feelings
 - **Balloon Breathing:** a guided slow-breathing calm down activity
 - **Good Choice:** short behavior scenarios with two responses to pick from
+- **Glitter Jar:** shake a sparkly jar and watch the glitter settle, a calming visual focus tool
 
 Puzzle pieces are draggable (mouse and touch) and arranged in trays on either side
 of the grid, sized so every piece fits without a bottom-tray overflow on typical

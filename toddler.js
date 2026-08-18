@@ -49,6 +49,7 @@ function initToddlerPage(){
   else if (game === 'feelings') initFeelings();
   else if (game === 'breathing') initBreathing();
   else if (game === 'goodchoice') initGoodChoice();
+  else if (game === 'jar') initGlitterJar();
 }
 
 /* ---------- Stop and Go (impulse control) ---------- */
@@ -236,6 +237,82 @@ function initBreathing(){
     cycles = 0;
     updateStars();
     balloon.style.transform = 'scale(1)';
+    instruction.textContent = 'Press the button to begin.';
+    btn.disabled = false;
+  });
+
+  updateStars();
+}
+
+/* ---------- Glitter Jar (calm down) ---------- */
+function initGlitterJar(){
+  const jarGlitter = document.getElementById('jar-glitter');
+  const instruction = document.getElementById('jar-instruction');
+  const btn = document.getElementById('jar-btn');
+  const starsEl = document.getElementById('jar-stars');
+  const GOAL = 4;
+  const PARTICLE_COUNT = 28;
+  const SETTLE_MS = 5000;
+  const DOT_COLORS = ['#ffd66b', '#e8594f', '#7bc8f6', '#7b5ea7', '#5cb85c', '#ff9ad9'];
+  let shakes = 0;
+
+  for (let i = 0; i < PARTICLE_COUNT; i++){
+    const dot = document.createElement('span');
+    dot.className = 'glitter-dot';
+    const size = 4 + Math.random() * 4;
+    dot.style.width = size + 'px';
+    dot.style.height = size + 'px';
+    dot.style.left = (4 + Math.random() * 88) + '%';
+    dot.style.bottom = (2 + Math.random() * 14) + 'px';
+    dot.style.background = DOT_COLORS[i % DOT_COLORS.length];
+    jarGlitter.appendChild(dot);
+  }
+
+  function updateStars(){
+    starsEl.textContent = '⭐'.repeat(shakes) + '☆'.repeat(GOAL - shakes);
+  }
+
+  function shakeJar(){
+    btn.disabled = true;
+    instruction.textContent = 'Watch it swirl...';
+
+    jarGlitter.querySelectorAll('.glitter-dot').forEach(dot => {
+      const rise = 40 + Math.random() * 70;
+      const drift = Math.random() * 60 - 30;
+      dot.style.setProperty('--rise', rise + 'px');
+      dot.style.setProperty('--drift', drift + 'px');
+      dot.style.animationDuration = (SETTLE_MS / 1000) + 's';
+      dot.style.animationDelay = (Math.random() * 0.3) + 's';
+      // Restart the animation even if it's already mid-run from a prior shake.
+      dot.classList.remove('shaking');
+      void dot.offsetWidth;
+      dot.classList.add('shaking');
+    });
+
+    setTimeout(() => { instruction.textContent = 'Settling down, breathe slowly...'; }, 700);
+
+    setTimeout(() => {
+      shakes++;
+      updateStars();
+      if (shakes >= GOAL){
+        setTimeout(showJarCelebration, 300);
+      } else {
+        instruction.textContent = 'Ready for another shake?';
+        btn.disabled = false;
+      }
+    }, SETTLE_MS + 200);
+  }
+
+  function showJarCelebration(){
+    document.getElementById('overlay-jar').classList.add('active');
+  }
+
+  btn.addEventListener('click', shakeJar);
+
+  document.getElementById('jar-play-again').addEventListener('click', () => {
+    document.getElementById('overlay-jar').classList.remove('active');
+    shakes = 0;
+    updateStars();
     instruction.textContent = 'Press the button to begin.';
     btn.disabled = false;
   });

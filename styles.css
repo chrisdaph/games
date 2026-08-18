@@ -876,6 +876,7 @@
   .toddler-card.feelings{ background: linear-gradient(135deg,#7bc8f6,#4aa3d8); }
   .toddler-card.breathing{ background: linear-gradient(135deg,#8ed99f,#5cb85c); }
   .toddler-card.goodchoice{ background: linear-gradient(135deg,#c9a4e8,#7b5ea7); }
+  .toddler-card.jar{ background: linear-gradient(135deg,#f7a8d0,#b565a7); }
 
   /* --- Stop and Go --- */
   .stopgo-wrap{
@@ -1050,6 +1051,75 @@
   .breathe-btn:disabled{ opacity:.6; cursor:default; }
   .breathe-btn:active:not(:disabled){ transform: translateY(3px); box-shadow:none; }
   .breathe-stars{ font-size:1.6rem; margin-top:14px; letter-spacing:4px; }
+
+  /* --- Glitter Jar --- */
+  .jar-wrap{
+    text-align:center;
+    padding: 10px 16px;
+    min-height: 56vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .jar-zone{ display:flex; align-items:center; justify-content:center; height: 240px; margin: 10px 0; }
+  .jar-container{ position:relative; width:150px; }
+  .jar-lid{
+    width: 90px;
+    height: 22px;
+    margin: 0 auto;
+    background: linear-gradient(135deg,#c9a4e8,#7b5ea7);
+    border-radius: 8px 8px 4px 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    position:relative;
+    z-index:2;
+  }
+  .jar-glass{
+    width: 150px;
+    height: 190px;
+    margin-top: -4px;
+    border-radius: 16px 16px 46px 46px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.55));
+    border: 4px solid rgba(255,255,255,0.65);
+    box-shadow: inset 0 0 20px rgba(255,255,255,0.5), 0 8px 16px rgba(0,0,0,0.15);
+    overflow:hidden;
+    position:relative;
+  }
+  .jar-glitter{ position:absolute; inset:0; }
+  .glitter-dot{
+    position:absolute;
+    bottom: 8px;
+    border-radius:50%;
+    box-shadow: 0 0 4px rgba(255,255,255,0.85);
+    transform: translate(0,0) rotate(0deg);
+  }
+  .glitter-dot.shaking{
+    animation-name: glitter-shake;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+  @keyframes glitter-shake{
+    0%   { transform: translate(0,0) rotate(0deg); }
+    10%  { transform: translate(calc(var(--drift) * 0.6), calc(-1 * var(--rise))) rotate(120deg); }
+    35%  { transform: translate(var(--drift), calc(-1 * var(--rise) * 0.55)) rotate(220deg); }
+    100% { transform: translate(calc(var(--drift) * 0.15), 0) rotate(360deg); }
+  }
+  .jar-instruction{ font-size:1.2rem; font-weight:bold; color:#8a4a8a; min-height:1.6em; margin-bottom:10px; }
+  .jar-btn{
+    font-size:1.2rem;
+    font-weight:bold;
+    padding:16px 44px;
+    border:none;
+    border-radius:999px;
+    background: linear-gradient(135deg,#f7a8d0,#b565a7);
+    color:#fff;
+    cursor:pointer;
+    font-family:inherit;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.15), 0 10px 18px rgba(0,0,0,0.12);
+  }
+  .jar-btn:disabled{ opacity:.6; cursor:default; }
+  .jar-btn:active:not(:disabled){ transform: translateY(3px); box-shadow:none; }
+  .jar-stars{ font-size:1.6rem; margin-top:14px; letter-spacing:4px; }
 
   /* --- Good Choice --- */
   .choice-wrap{
