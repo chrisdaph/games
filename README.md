@@ -22,7 +22,7 @@ emotional-regulation games for ages 2-5).
 /bible/matthew-quiz.html                 10-question picture quiz on the book of Matthew
 /toddler/index.html                      Toddler Games category page
 /toddler/stop-and-go.html                impulse control (wait for green, then tap)
-/toddler/feelings-match.html             emotional vocabulary matching game
+/toddler/thankful-jar.html                picture-only gratitude game
 /toddler/balloon-breathing.html          slow-breathing calm down game
 /toddler/good-choice.html                behavior scenario game
 /toddler/glitter-jar.html                shake-and-settle calm down game
@@ -69,7 +69,7 @@ No build step or server required. Just open `index.html` in any modern browser
 - **Bible Crossword:** 3 word puzzles (Jesus, Noah, Moses) for ages 5+, tap clues and spell answers on an on-screen keyboard
 - **Bible Quiz: Matthew:** 10 picture multiple-choice questions for ages 5-7, with retry-friendly feedback and a star rating
 - **Stop and Go:** tap only when the light is green, practicing waiting and impulse control
-- **Feelings Match:** a tap-to-match game pairing faces to feelings
+- **Thankful Jar:** tap pictures of things you love to fill a jar, a picture-only gratitude game with no reading required
 - **Balloon Breathing:** a guided slow-breathing calm down activity
 - **Good Choice:** short behavior scenarios with two responses to pick from
 - **Glitter Jar:** shake a sparkly jar and watch the glitter settle, a calming visual focus tool

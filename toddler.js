@@ -3,15 +3,15 @@
    emotional regulation. Dispatches on <body data-game="...">.
    ========================================================= */
 
-const FEELINGS = [
-  { id:1, face:'😊', label:'Happy',     desc:'You feel good and smiley inside.' },
-  { id:2, face:'😢', label:'Sad',       desc:'You feel like crying, and that is okay.' },
-  { id:3, face:'😠', label:'Mad',       desc:'You feel like stomping, try a big breath.' },
-  { id:4, face:'😨', label:'Scared',    desc:'You feel like hiding, but you are safe.' },
-  { id:5, face:'😲', label:'Surprised', desc:'Something happened that you did not expect.' },
-  { id:6, face:'😌', label:'Calm',      desc:'You feel quiet and peaceful.' },
-  { id:7, face:'🤩', label:'Excited',   desc:'You can hardly wait, it is so much fun.' },
-  { id:8, face:'😟', label:'Worried',   desc:'You keep thinking about something.' },
+const THANKFUL_ITEMS = [
+  { id:1, emoji:'👪', label:'My family' },
+  { id:2, emoji:'☀️', label:'Sunshine' },
+  { id:3, emoji:'🐶', label:'My pet' },
+  { id:4, emoji:'🧸', label:'My toys' },
+  { id:5, emoji:'🍎', label:'Yummy food' },
+  { id:6, emoji:'🏠', label:'My home' },
+  { id:7, emoji:'📚', label:'Storybooks' },
+  { id:8, emoji:'🛏️', label:'A cozy bed' },
 ];
 
 const CHOICES = [
@@ -46,7 +46,7 @@ function shuffleArray(arr){
 function initToddlerPage(){
   const game = document.body.dataset.game;
   if (game === 'stopgo') initStopGo();
-  else if (game === 'feelings') initFeelings();
+  else if (game === 'thankful') initThankfulJar();
   else if (game === 'breathing') initBreathing();
   else if (game === 'goodchoice') initGoodChoice();
   else if (game === 'jar') initGlitterJar();
@@ -119,78 +119,65 @@ function initStopGo(){
   start();
 }
 
-/* ---------- Feelings Match (emotional vocabulary) ---------- */
-function initFeelings(){
-  const faceCol = document.getElementById('match-faces');
-  const descCol = document.getElementById('match-descs');
-  let selectedFace = null, selectedDesc = null, matched = 0;
+/* ---------- Thankful Jar (picture-only gratitude game) ---------- */
+function initThankfulJar(){
+  const picker = document.getElementById('thankful-picker');
+  const itemsZone = document.getElementById('thankful-items');
+  const instruction = document.getElementById('thankful-instruction');
+  const progress = document.getElementById('thankful-progress');
+  const GOAL = THANKFUL_ITEMS.length;
+  let filled = 0;
 
   function build(){
-    matched = 0; selectedFace = null; selectedDesc = null;
-    faceCol.innerHTML = ''; descCol.innerHTML = '';
+    filled = 0;
+    picker.innerHTML = '';
+    itemsZone.innerHTML = '';
 
-    shuffleArray(FEELINGS.slice()).forEach(f=>{
-      const el = document.createElement('div');
-      el.className = 'match-tile face';
-      el.textContent = f.face;
-      el.addEventListener('click', ()=> onFaceClick(el, f));
-      faceCol.appendChild(el);
+    shuffleArray(THANKFUL_ITEMS.slice()).forEach(item=>{
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'thankful-btn';
+      btn.textContent = item.emoji;
+      btn.setAttribute('aria-label', item.label);
+      btn.addEventListener('click', ()=> addItem(item, btn));
+      picker.appendChild(btn);
     });
-    shuffleArray(FEELINGS.slice()).forEach(f=>{
-      const el = document.createElement('div');
-      el.className = 'match-tile desc';
-      el.textContent = f.label;
-      el.addEventListener('click', ()=> onDescClick(el, f));
-      descCol.appendChild(el);
-    });
+
     updateProgress();
+    instruction.textContent = "Tap something you're thankful for!";
   }
 
-  function onFaceClick(el, f){
-    if (el.classList.contains('matched') || el.classList.contains('wrong')) return;
-    if (selectedFace) selectedFace.el.classList.remove('selected');
-    selectedFace = { el, f };
-    el.classList.add('selected');
-    tryMatch();
-  }
-  function onDescClick(el, f){
-    if (el.classList.contains('matched') || el.classList.contains('wrong')) return;
-    if (selectedDesc) selectedDesc.el.classList.remove('selected');
-    selectedDesc = { el, f };
-    el.classList.add('selected');
-    tryMatch();
-  }
-  function tryMatch(){
-    if (!selectedFace || !selectedDesc) return;
-    const a = selectedFace, b = selectedDesc;
-    if (a.f.id === b.f.id){
-      a.el.classList.remove('selected'); b.el.classList.remove('selected');
-      a.el.classList.add('matched'); b.el.classList.add('matched');
-      matched++;
-      updateProgress();
-      if (matched === FEELINGS.length) setTimeout(showCelebration, 300);
-    } else {
-      a.el.classList.add('wrong'); b.el.classList.add('wrong');
-      setTimeout(()=>{
-        a.el.classList.remove('wrong','selected');
-        b.el.classList.remove('wrong','selected');
-      }, 500);
+  function addItem(item, btn){
+    if (btn.disabled) return;
+    btn.disabled = true;
+
+    const token = document.createElement('span');
+    token.className = 'thankful-token';
+    token.textContent = item.emoji;
+    itemsZone.appendChild(token);
+    requestAnimationFrame(()=> token.classList.add('pop'));
+
+    filled++;
+    updateProgress();
+    if (filled >= GOAL){
+      instruction.textContent = 'Look how much you have to be thankful for!';
+      setTimeout(showCelebration, 500);
     }
-    selectedFace = null; selectedDesc = null;
-  }
-  function updateProgress(){
-    document.getElementById('match-progress').textContent = `${matched} / ${FEELINGS.length}`;
-    document.getElementById('match-progress-fill').style.width = `${(matched / FEELINGS.length) * 100}%`;
-  }
-  function showCelebration(){
-    document.getElementById('match-recap').innerHTML = FEELINGS
-      .map(f => `<div class="row">${f.face} <b>${f.label}:</b> ${f.desc}</div>`)
-      .join('');
-    document.getElementById('overlay-feelings').classList.add('active');
   }
 
-  document.getElementById('feelings-play-again').addEventListener('click', ()=>{
-    document.getElementById('overlay-feelings').classList.remove('active');
+  function updateProgress(){
+    progress.textContent = `${filled} / ${GOAL}`;
+  }
+
+  function showCelebration(){
+    document.getElementById('thankful-recap').innerHTML = THANKFUL_ITEMS
+      .map(i => `<div class="row">${i.emoji} <b>${i.label}</b></div>`)
+      .join('');
+    document.getElementById('overlay-thankful').classList.add('active');
+  }
+
+  document.getElementById('thankful-play-again').addEventListener('click', ()=>{
+    document.getElementById('overlay-thankful').classList.remove('active');
     build();
   });
 
