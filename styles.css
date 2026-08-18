@@ -968,6 +968,15 @@
     font-family:inherit;
     box-shadow: 0 4px 10px rgba(0,0,0,0.12);
     transition: transform .12s ease, opacity .2s ease, box-shadow .12s ease;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .thankful-btn img{
+    width:44px;
+    height:44px;
+    object-fit:contain;
+    pointer-events:none;
   }
   .thankful-btn:hover:not(:disabled){ transform: translateY(-3px); box-shadow: 0 8px 14px rgba(0,0,0,0.16); }
   .thankful-btn:active:not(:disabled){ transform: translateY(1px); }

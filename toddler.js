@@ -4,11 +4,11 @@
    ========================================================= */
 
 const THANKFUL_ITEMS = [
-  { id:1, emoji:'👪', label:'My family' },
-  { id:2, emoji:'☀️', label:'Sunshine' },
-  { id:3, emoji:'🐶', label:'My pet' },
-  { id:4, emoji:'🧸', label:'My toys' },
-  { id:5, emoji:'🍎', label:'Yummy food' },
+  { id:1, emoji:'👪', label:'My family', icon:'../images/thankful-icon-family.png' },
+  { id:2, emoji:'☀️', label:'Sunshine', icon:'../images/thankful-icon-sunshine.png' },
+  { id:3, emoji:'🐶', label:'My pet', icon:'../images/thankful-icon-pet.png' },
+  { id:4, emoji:'🧸', label:'My toys', icon:'../images/thankful-icon-toys.png' },
+  { id:5, emoji:'🍎', label:'Yummy food', icon:'../images/thankful-icon-food.png' },
   { id:6, emoji:'🏠', label:'My home' },
   { id:7, emoji:'📚', label:'Storybooks' },
   { id:8, emoji:'🛏️', label:'A cozy bed' },
@@ -137,7 +137,14 @@ function initThankfulJar(){
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'thankful-btn';
-      btn.textContent = item.emoji;
+      if (item.icon){
+        const img = document.createElement('img');
+        img.src = item.icon;
+        img.alt = '';
+        btn.appendChild(img);
+      } else {
+        btn.textContent = item.emoji;
+      }
       btn.setAttribute('aria-label', item.label);
       btn.addEventListener('click', ()=> addItem(item, btn));
       picker.appendChild(btn);
