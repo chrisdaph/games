@@ -942,12 +942,18 @@
     pointer-events:none;
   }
   .thankful-token{
-    font-size:1.7rem;
+    font-size:2.1rem;
     line-height:1;
     transform:scale(0);
     transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+    display:inline-flex;
   }
   .thankful-token.pop{ transform:scale(1); }
+  .thankful-token img{
+    width:40px;
+    height:40px;
+    object-fit:contain;
+  }
   .thankful-instruction{ font-size:1.15rem; font-weight:bold; color:#8a6a1e; min-height:1.6em; margin:14px 0 10px; }
   .thankful-picker{
     display:flex;
@@ -958,11 +964,11 @@
     margin:0 auto;
   }
   .thankful-btn{
-    font-size:1.8rem;
-    width:64px;
-    height:64px;
+    font-size:2.2rem;
+    width:76px;
+    height:76px;
     border:none;
-    border-radius:16px;
+    border-radius:18px;
     background:#fff;
     cursor:pointer;
     font-family:inherit;
@@ -973,8 +979,8 @@
     justify-content:center;
   }
   .thankful-btn img{
-    width:44px;
-    height:44px;
+    width:56px;
+    height:56px;
     object-fit:contain;
     pointer-events:none;
   }

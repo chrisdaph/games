@@ -160,7 +160,14 @@ function initThankfulJar(){
 
     const token = document.createElement('span');
     token.className = 'thankful-token';
-    token.textContent = item.emoji;
+    if (item.icon){
+      const img = document.createElement('img');
+      img.src = item.icon;
+      img.alt = '';
+      token.appendChild(img);
+    } else {
+      token.textContent = item.emoji;
+    }
     itemsZone.appendChild(token);
     requestAnimationFrame(()=> token.classList.add('pop'));
 
